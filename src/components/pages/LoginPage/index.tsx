@@ -1,15 +1,47 @@
 import { Stack, Paper, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
-import { createAccount, login } from '../../../interface/requests';
+import { createAccountRequest, loginRequest } from '../../../interface/requests';
 import "./style.css";
 
 export interface LoginPageProps {
     onLogin: (token: string) => void,
 }
 
+// TODO: Warn user if error
+/**
+ * Page that displays a login form and a create account form.
+ * onLogin is called with a token when the user logged in.
+ */
 const LoginPage = (props: LoginPageProps) => {
     const [isLoginLoading, setIsLoginLoading] = useState(false);
     const [isCreateLoading, setIsCreateLoading] = useState(false);
+
+    // Sends a login request and handles the response
+    const login = (email: string, password: string) => {
+        loginRequest(email, password, {
+            onSuccess: (json) => {
+                setIsLoginLoading(false);
+                setIsCreateLoading(false);
+                props.onLogin(json.token);
+            },
+            onError: (json) => {
+                setIsLoginLoading(false);
+                setIsCreateLoading(false);
+            },
+        })
+    }
+
+    // Sends a create account request and handles the response
+    const createAccount = (name: string, email: string, password: string) => {
+        createAccountRequest(name, email, password, {
+            onSuccess: (json) => {
+                login(email, password)
+            },
+            onError: (json) => {
+                setIsCreateLoading(false);
+            }
+        })
+    }
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -24,15 +56,7 @@ const LoginPage = (props: LoginPageProps) => {
             return;
         }
 
-        login(email, password, {
-            onSuccess: (json) => {
-                setIsLoginLoading(false);
-                props.onLogin(json.token);
-            },
-            onError: (json) => {
-                setIsLoginLoading(false);
-            },
-        })
+        login(email, password)
     };
 
     const handleCreateSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,22 +73,7 @@ const LoginPage = (props: LoginPageProps) => {
             return;
         }
 
-        createAccount(name, email, password, {
-            onSuccess: (json) => {
-                login(email, password, {
-                    onSuccess: (json) => {
-                        setIsLoginLoading(false);
-                        props.onLogin(json.token);
-                    },
-                    onError: (json) => {
-                        setIsLoginLoading(false);
-                    },
-                })
-            },
-            onError: (json) => {
-                setIsCreateLoading(false);
-            },
-        })
+        createAccount(name, email, password)
     };
 
     return (

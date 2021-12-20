@@ -31,7 +31,7 @@ async function request(route: string, body: any, listener: RequestListener) {
     }
 }
 
-export async function createAccount(userName: string, email: string, password: string, listener: RequestListener) {
+export async function createAccountRequest(userName: string, email: string, password: string, listener: RequestListener) {
     request(
         "/users/create",
         {
@@ -43,7 +43,7 @@ export async function createAccount(userName: string, email: string, password: s
     )
 }
 
-export async function login(email: string, password: string, listener: RequestListener) {
+export async function loginRequest(email: string, password: string, listener: RequestListener) {
     request(
         "/auth/login",
         {
