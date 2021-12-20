@@ -1,8 +1,13 @@
 import { Stack, Paper, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
+import { createAccount, login } from '../../../interface/requests';
 import "./style.css";
 
-const LoginPage = () => {
+export interface LoginPageProps {
+    onLogin: (token: string) => void,
+}
+
+const LoginPage = (props: LoginPageProps) => {
     const [isLoginLoading, setIsLoginLoading] = useState(false);
     const [isCreateLoading, setIsCreateLoading] = useState(false);
 
@@ -12,10 +17,22 @@ const LoginPage = () => {
 
         setIsLoginLoading(true);
 
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const email = data.get('email')?.toString()
+        const password = data.get('password')?.toString()
+
+        if (!email || !password) {
+            return;
+        }
+
+        login(email, password, {
+            onSuccess: (json) => {
+                setIsLoginLoading(false);
+                props.onLogin(json.token);
+            },
+            onError: (json) => {
+                setIsLoginLoading(false);
+            },
+        })
     };
 
     const handleCreateSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,10 +41,30 @@ const LoginPage = () => {
 
         setIsCreateLoading(true);
 
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const name = data.get('username')?.toString()
+        const email = data.get('email')?.toString()
+        const password = data.get('password')?.toString()
+
+        if (!name || !email || !password) {
+            return;
+        }
+
+        createAccount(name, email, password, {
+            onSuccess: (json) => {
+                login(email, password, {
+                    onSuccess: (json) => {
+                        setIsLoginLoading(false);
+                        props.onLogin(json.token);
+                    },
+                    onError: (json) => {
+                        setIsLoginLoading(false);
+                    },
+                })
+            },
+            onError: (json) => {
+                setIsCreateLoading(false);
+            },
+        })
     };
 
     return (
