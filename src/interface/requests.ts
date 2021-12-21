@@ -1,17 +1,26 @@
+import Ingredient from "../types/ingredient";
+
 const URL = "http://127.0.0.1:5000";
+
+let token = "";
 
 interface RequestListener {
     onSuccess: (json: any) => void,
     onError: (json: any) => void,
 }
 
-async function request(route: string, body: any, listener: RequestListener) {
+async function request(route: string, body: any, includeToken: boolean, listener: RequestListener) {
+    const headers = new Headers()
+    headers.append('Accept', 'application/json')
+    headers.append('Content-Type', 'application/json')
+
+    if (includeToken) {
+        headers.append('Authorization', "Bearer " + token)
+    }
+
     const response = await fetch(URL + route, {
         method: "post",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers: headers,
         body: JSON.stringify(body)
     })
 
@@ -39,17 +48,42 @@ export async function createAccountRequest(userName: string, email: string, pass
             email: email,
             password: password,
         },
+        false,
         listener
     )
 }
 
 export async function loginRequest(email: string, password: string, listener: RequestListener) {
+    // Listener that extracts the token, and then calls the regular listener
+    const loginListener = {
+        onSuccess: (json: any) => {
+            token = json.token;
+            listener.onSuccess(json);
+        },
+        onError: listener.onError,
+    }
+
     request(
         "/auth/login",
         {
             email: email,
             password: password,
         },
-        listener
+        false,
+        loginListener
+    )
+}
+
+export async function uploadRecipeRequest(name: string, ingredients: Ingredient[], instructions: string[], imageBase64: string | null, listener: RequestListener) {
+    request(
+        "/recipes/create",
+        {
+            name: name,
+            ingredients: ingredients,
+            instructions: instructions,
+            image: imageBase64,
+        },
+        true,
+        listener,
     )
 }

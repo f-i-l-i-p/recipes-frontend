@@ -1,12 +1,14 @@
-import { Button, Divider, Input, List, ListItem, Paper, Stack, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import { Button, Divider, Input, List, ListItem, Paper, Stack, Table, TableBody, TableCell, TableRow, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import Ingredient from "../../../types/ingredient";
 import IngredientMaker from "../../IngredientMaker";
 import InstructionMaker from "../../InstructionMaker";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { isImage } from "../../../helpers/imageHelper";
+import { encodeImageFileToBase64, isImage } from "../../../helpers/imageHelper";
+import { uploadRecipeRequest } from "../../../interface/requests";
 
 const CreateRecipePage = () => {
+    const [name, setName] = useState<string>()
     const [ingredients, setIngredients] = useState<Ingredient[]>([])
     const [instructions, setInstructions] = useState<string[]>([])
     const [image, setImage] = useState<{ file: File, url: string }>()
@@ -32,8 +34,54 @@ const CreateRecipePage = () => {
         })
     }
 
+    const onUploadRecipe = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const data = new FormData(event.currentTarget)
+
+        const name = data.get('name')?.toString()
+
+        if (!name)
+            return
+
+        const onSuccess = (json: any) => {
+            alert("success")
+        }
+        const onError = (json: any) => {
+            alert("error")
+        }
+
+        const upload = (imageBase64: null | string) => {
+            uploadRecipeRequest(name, ingredients, instructions, imageBase64, { onSuccess: onSuccess, onError: onError })
+        }
+
+        if (image) {
+            encodeImageFileToBase64(image?.file, (callback) => {
+                upload(callback);
+            })
+        } else {
+            upload(null)
+        }
+    }
+
     return (
         <Stack spacing={2}>
+            <Paper elevation={2} id="main-form" component="form" onSubmit={onUploadRecipe}>
+                <Typography component="h2" variant="h5">
+                    Ingredients
+                </Typography>
+
+                <TextField
+                    required
+                    size="small"
+                    label="Name"
+                    type="text"
+                    name="name"
+                    onChange={(event) => setName(event.target.value)}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+            </Paper >
             <Paper elevation={2}>
                 <Stack spacing={2}>
                     <Typography component="h2" variant="h5">
@@ -75,10 +123,11 @@ const CreateRecipePage = () => {
                     <InstructionMaker onCreateInstruction={(instruction: string) => addInstruction(instruction)} />
                 </Stack>
             </Paper>
-            {image &&
-            <Paper elevation={2} style={{overflow: "hidden", aspectRatio:"1 / 1"}}>
-                <img src={image.url} style={{width: "100%", aspectRatio:"1 / 1"}}/>
-            </Paper>
+            {
+                image &&
+                <Paper elevation={2} style={{ overflow: "hidden", aspectRatio: "1 / 1" }}>
+                    <img src={image.url} style={{ width: "100%", aspectRatio: "1 / 1" }} />
+                </Paper>
             }
             <label htmlFor="icon-button-file">
                 <input id="icon-button-file" accept="image/*" type="file" style={{ display: "none" }} onChange={(event) => onImageUpload(event)} />
@@ -86,7 +135,10 @@ const CreateRecipePage = () => {
                     Upload Photo
                 </Button>
             </label>
-        </Stack>
+            <Button type="submit" variant="contained" form="main-form">
+                Create Recipe
+            </Button>
+        </Stack >
     )
 }
 
