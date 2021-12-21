@@ -1,14 +1,15 @@
-import { Divider, List, ListItem, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, Divider, Input, List, ListItem, Paper, Stack, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import { useState } from "react";
 import Ingredient from "../../../types/ingredient";
 import IngredientMaker from "../../IngredientMaker";
 import InstructionMaker from "../../InstructionMaker";
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { isImage } from "../../../helpers/imageHelper";
 
 const CreateRecipePage = () => {
-    const initialIngredients: Ingredient[] = []
-    const initialInstructions: string[] = []
-    const [ingredients, setIngredients] = useState(initialIngredients)
-    const [instructions, setInstructions] = useState(initialInstructions)
+    const [ingredients, setIngredients] = useState<Ingredient[]>([])
+    const [instructions, setInstructions] = useState<string[]>([])
+    const [image, setImage] = useState<{ file: File, url: string }>()
 
     const addIngredient = (ingredient: Ingredient) => {
         setIngredients([...ingredients, ingredient])
@@ -16,6 +17,19 @@ const CreateRecipePage = () => {
 
     const addInstruction = (instruction: string) => {
         setInstructions([...instructions, instruction])
+    }
+
+    const onImageUpload = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        const target = event.target as HTMLInputElement
+        const file: File = (target.files as FileList)[0]
+
+        isImage(file, () => {
+            // If file is an image
+            setImage({
+                file: file,
+                url: URL.createObjectURL(file),
+            })
+        })
     }
 
     return (
@@ -61,6 +75,17 @@ const CreateRecipePage = () => {
                     <InstructionMaker onCreateInstruction={(instruction: string) => addInstruction(instruction)} />
                 </Stack>
             </Paper>
+            {image &&
+            <Paper elevation={2} style={{overflow: "hidden", aspectRatio:"1 / 1"}}>
+                <img src={image.url} style={{width: "100%", aspectRatio:"1 / 1"}}/>
+            </Paper>
+            }
+            <label htmlFor="icon-button-file">
+                <input id="icon-button-file" accept="image/*" type="file" style={{ display: "none" }} onChange={(event) => onImageUpload(event)} />
+                <Button color="primary" aria-label="upload picture" component="span" variant="contained" endIcon={<PhotoCamera />}>
+                    Upload Photo
+                </Button>
+            </label>
         </Stack>
     )
 }
