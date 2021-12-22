@@ -4,3 +4,9 @@ export default interface Ingredient {
     unit: string,
     name: string,
 }
+
+export interface RecipeListItem {
+    id: number,
+    name: string,
+    user: string,
+}

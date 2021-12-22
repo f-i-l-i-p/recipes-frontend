@@ -9,7 +9,7 @@ interface RequestListener {
     onError: (json: any) => void,
 }
 
-async function request(route: string, body: any, includeToken: boolean, listener: RequestListener) {
+async function request(route: string, body: any, includeToken: boolean, listener: RequestListener): Promise<void> {
     const headers = new Headers()
     headers.append('Accept', 'application/json')
     headers.append('Content-Type', 'application/json')
@@ -40,7 +40,7 @@ async function request(route: string, body: any, includeToken: boolean, listener
     }
 }
 
-export async function createAccountRequest(userName: string, email: string, password: string, listener: RequestListener) {
+export async function createAccountRequest(userName: string, email: string, password: string, listener: RequestListener): Promise<void> {
     request(
         "/users/create",
         {
@@ -53,7 +53,7 @@ export async function createAccountRequest(userName: string, email: string, pass
     )
 }
 
-export async function loginRequest(email: string, password: string, listener: RequestListener) {
+export async function loginRequest(email: string, password: string, listener: RequestListener): Promise<void> {
     // Listener that extracts the token, and then calls the regular listener
     const loginListener = {
         onSuccess: (json: any) => {
@@ -74,7 +74,7 @@ export async function loginRequest(email: string, password: string, listener: Re
     )
 }
 
-export async function uploadRecipeRequest(name: string, ingredients: Ingredient[], instructions: string[], imageBase64: string | null, listener: RequestListener) {
+export async function uploadRecipeRequest(name: string, ingredients: Ingredient[], instructions: string[], imageBase64: string | null, listener: RequestListener): Promise<void> {
     request(
         "/recipes/create",
         {
@@ -83,6 +83,22 @@ export async function uploadRecipeRequest(name: string, ingredients: Ingredient[
             instructions: instructions,
             image: imageBase64,
         },
+        true,
+        listener,
+    )
+}
+
+export async function latestRecipes(searchTerm: string | null, listener: RequestListener): Promise<void> {
+    let body;
+    if (searchTerm) {
+        body = { math: searchTerm }
+    } else {
+        body = {}
+    }
+
+    request(
+        "/recipes/latest",
+        body,
         true,
         listener,
     )
