@@ -4,49 +4,50 @@ import CreateRecipePage from "../../pages/CreateRecipePage";
 import LoginPage from "../../pages/LoginPage";
 import RecipeListPage from "../../pages/RecipeListPage";
 import MenuIcon from '@mui/icons-material/Menu';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const DRAWER_WIDTH = 240;
 
-enum ActivePage {
-    Login,
-    RecipeList,
-    CreateRecipe,
-}
-
 function PageDrawer() {
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [activePage, setActivePage] = useState(ActivePage.Login);
+
+    const popHistoryPage = () => {
+        if (history.length > 1) {
+            let newHistory = [...history]
+            newHistory.pop()
+            setHistory(newHistory)
+        }
+    }
+
+    const pushHistoryPage = (page: JSX.Element) => {
+        setHistory([...history, page])
+    }
+
+    const setBasePage = (page: JSX.Element) => {
+        setHistory([page])
+    }
 
     const onLogin = (token: String) => {
-        setActivePage(ActivePage.RecipeList);
+        setBasePage(<RecipeListPage openPage={(page) => pushHistoryPage(page)} />)
     }
+
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
 
-    let page
-    switch (activePage) {
-        case ActivePage.Login:
-            page = <LoginPage onLogin={onLogin} />
-            break
-        case ActivePage.RecipeList:
-            page = <RecipeListPage />
-            break
-        case ActivePage.CreateRecipe:
-            page = <CreateRecipePage />
-            break
-    }
+    const currentPage = history[history.length - 1]
 
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => setActivePage(ActivePage.RecipeList)}>
+                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={(page) => pushHistoryPage(page)} />)}>
                     <ListItemText primary="Recipe List" />
                 </ListItem>
-                <ListItem button onClick={() => setActivePage(ActivePage.CreateRecipe)}>
+                <ListItem button onClick={() => setBasePage(<CreateRecipePage />)}>
                     <ListItemText primary="Create Recipe" />
                 </ListItem>
             </List>
@@ -74,6 +75,17 @@ function PageDrawer() {
                     >
                         <MenuIcon />
                     </IconButton>
+                    {history.length > 1 &&
+                        <IconButton
+                            color="inherit"
+                            aria-label="back"
+                            edge="start"
+                            onClick={popHistoryPage}
+                            sx={{ mr: 2 }}
+                        >
+                            <ArrowBackIcon />
+                        </IconButton>
+                    }
                     <Typography variant="h6" noWrap component="div">
                         Responsive drawer
                     </Typography>
@@ -114,7 +126,7 @@ function PageDrawer() {
                 sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` } }}
             >
                 <Toolbar />
-                {page}
+                {currentPage}
             </Box>
         </Box>
     );

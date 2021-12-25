@@ -10,3 +10,14 @@ export interface RecipeListItem {
     name: string,
     user: string,
 }
+
+export interface Recipe {
+    id: number,
+    name: string,
+    ingredients: Ingredient[],
+    instructions: string[],
+    user: string,
+    comments: any[],
+    likes: number,
+    image: string,
+}

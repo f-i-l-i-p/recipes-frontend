@@ -1,15 +1,20 @@
-import { CircularProgress, Divider, ListItem, ListItemText, Stack } from "@mui/material";
+import { CircularProgress, Divider, ListItem, ListItemButton, ListItemText, Stack } from "@mui/material";
 import React from "react";
 import { useState } from "react";
-import { latestRecipes } from "../../../interface/requests";
+import { latestRecipesRequest } from "../../../interface/requests";
 import { RecipeListItem } from "../../../types/ingredient";
+import RecipePage from "../RecipePage";
 
-const RecipeListPage = () => {
+interface Props {
+    openPage: (page: JSX.Element) => void,
+}
+
+const RecipeListPage = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [recipes, setRecipes] = useState<RecipeListItem[]>([])
 
     const request = () => {
-        latestRecipes(null, {
+        latestRecipesRequest(null, {
             onSuccess: (json: any) => {
                 setIsLoading(false)
                 setRecipes(json.result)
@@ -18,6 +23,10 @@ const RecipeListPage = () => {
                 setIsLoading(false)
             },
         })
+    }
+
+    const openPage = (recipeListItem: RecipeListItem) => {
+        props.openPage(<RecipePage id={recipeListItem.id} />)
     }
 
     React.useEffect(() => {
@@ -32,7 +41,9 @@ const RecipeListPage = () => {
             {recipes.map((recipe, index) =>
                 <React.Fragment key={index}>
                     <ListItem>
-                        <ListItemText primary={recipe.name} />
+                        <ListItemButton onClick={() => openPage(recipe)}>
+                            <ListItemText primary={recipe.name} />
+                        </ListItemButton>
                     </ListItem>
                     <Divider />
                 </React.Fragment>

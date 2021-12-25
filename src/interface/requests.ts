@@ -88,7 +88,7 @@ export async function uploadRecipeRequest(name: string, ingredients: Ingredient[
     )
 }
 
-export async function latestRecipes(searchTerm: string | null, listener: RequestListener): Promise<void> {
+export async function latestRecipesRequest(searchTerm: string | null, listener: RequestListener): Promise<void> {
     let body;
     if (searchTerm) {
         body = { math: searchTerm }
@@ -101,5 +101,16 @@ export async function latestRecipes(searchTerm: string | null, listener: Request
         body,
         true,
         listener,
+    )
+}
+
+export async function recipeRequest(id: number, listener: RequestListener): Promise<void> {
+    request(
+        "/recipes/get",
+        {
+            id: id,
+        },
+        true,
+        listener
     )
 }
