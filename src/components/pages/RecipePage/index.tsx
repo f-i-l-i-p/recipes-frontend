@@ -1,10 +1,11 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
+import { dataURLtoFile } from "../../../helpers/imageHelper";
 import { recipeRequest } from "../../../interface/requests";
 import { Recipe } from "../../../types/ingredient";
-import IngredientList from "../IngredientList";
-import InstructionList from "../InstructionList";
+import IngredientList from "../../recipes/IngredientList";
+import InstructionList from "../../recipes/InstructionList";
 
 interface Props {
     id: number,
@@ -34,6 +35,11 @@ const RecipePage = (props: Props) => {
         request();
     }, []);
 
+    let imageURL: string | null = null
+    if (recipe && recipe.image) {
+        imageURL = URL.createObjectURL(dataURLtoFile(recipe.image))
+    }
+
     return (
         <Stack spacing={2}>
             {isLoading &&
@@ -41,13 +47,16 @@ const RecipePage = (props: Props) => {
             }
 
             {recipe &&
-                <>
+                <React.Fragment>
+                    {imageURL &&
+                        <img src={imageURL} style={{ width: "100%", aspectRatio: "1 / 1" }} />
+                    }
                     <Typography component="h1" variant="h5">
                         {recipe.name}
                     </Typography>
                     <IngredientList ingredients={recipe.ingredients} />
                     <InstructionList instructions={recipe.instructions} />
-                </>
+                </React.Fragment>
             }
         </Stack>
     )

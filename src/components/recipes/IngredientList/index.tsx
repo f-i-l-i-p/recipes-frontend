@@ -22,7 +22,7 @@ const IngredientList = (props: Props) => {
                                 key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell>{ingredient.quantity}</TableCell>
+                                <TableCell align="right">{ingredient.quantity}</TableCell>
                                 <TableCell>{ingredient.unit}</TableCell>
                                 <TableCell sx={{ width: "99%" }}>{ingredient.name}</TableCell>
                             </TableRow>

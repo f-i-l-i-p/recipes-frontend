@@ -31,3 +31,21 @@ export function encodeImageFileToBase64(file: File, callback: (result: string) =
     }
     reader.readAsDataURL(file);
 }
+
+/**
+ * Decodes base64 to a file.
+ * @param dataurl Data to decode.
+ * @returns A new file object.
+ */
+export function dataURLtoFile(dataurl: string) {
+    let arr = dataurl.split(',')
+    let bstr = atob(arr[1]); // TODO: Deprecated
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], "file");
+}
