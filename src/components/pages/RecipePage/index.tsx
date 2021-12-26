@@ -3,6 +3,8 @@ import React from "react";
 import { useState } from "react";
 import { recipeRequest } from "../../../interface/requests";
 import { Recipe } from "../../../types/ingredient";
+import IngredientList from "../IngredientList";
+import InstructionList from "../InstructionList";
 
 interface Props {
     id: number,
@@ -33,15 +35,19 @@ const RecipePage = (props: Props) => {
     }, []);
 
     return (
-        <Stack>
+        <Stack spacing={2}>
             {isLoading &&
                 <CircularProgress />
             }
 
             {recipe &&
-                <Typography component="h1" variant="h5">
-                    {recipe.name}
-                </Typography>
+                <>
+                    <Typography component="h1" variant="h5">
+                        {recipe.name}
+                    </Typography>
+                    <IngredientList ingredients={recipe.ingredients} />
+                    <InstructionList instructions={recipe.instructions} />
+                </>
             }
         </Stack>
     )
