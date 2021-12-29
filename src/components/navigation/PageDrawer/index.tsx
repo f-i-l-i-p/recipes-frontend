@@ -14,43 +14,42 @@ function PageDrawer() {
         setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
     }
 
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
-
     const popHistoryPage = () => {
-        console.log("POP HISTORY")
         if (history.length > 1) {
-            let newHistory = [...history]
-            newHistory.pop()
-            setHistory(newHistory)
+            history.pop()
+            setHistory(history)
         }
     }
 
     const pushHistoryPage = (page: JSX.Element) => {
-        console.log("on push", history)
-        setHistory([...history, page])
+        history.push(page)
+        setHistory([...history])
     }
 
     const setBasePage = (page: JSX.Element) => {
-        setHistory([page])
+        history.length = 0
+        history.push(page)
+        setHistory([...history])
     }
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
 
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
+
     const currentPage = history[history.length - 1]
-    console.log("on render", history)
 
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => pushHistoryPage(<RecipeListPage openPage={pushHistoryPage} />)}>
+                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={(p) => pushHistoryPage(p)}/>)}>
                     <ListItemText primary="Recipe List" />
                 </ListItem>
-                <ListItem button onClick={() => pushHistoryPage(<CreateRecipePage />)}>
+                <ListItem button onClick={() => setBasePage(<CreateRecipePage />)}>
                     <ListItemText primary="Create Recipe" />
                 </ListItem>
             </List>
