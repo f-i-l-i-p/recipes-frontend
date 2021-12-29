@@ -13,17 +13,21 @@ function PageDrawer() {
     const onLogin = (token: String) => {
         setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
     }
+    
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
 
     const popHistoryPage = () => {
         if (history.length > 1) {
-            history.pop()
-            setHistory(history)
+            const newHistory = [...history]
+            newHistory.pop()
+            setHistory([...newHistory])
         }
     }
 
     const pushHistoryPage = (page: JSX.Element) => {
-        history.push(page)
-        setHistory([...history])
+        //history.push(page)
+        setHistory([...history, page])
     }
 
     const setBasePage = (page: JSX.Element) => {
@@ -36,9 +40,6 @@ function PageDrawer() {
         setMobileOpen(!mobileOpen);
     };
 
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
-
     const currentPage = history[history.length - 1]
 
     const drawer = (
@@ -46,7 +47,7 @@ function PageDrawer() {
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={(p) => pushHistoryPage(p)}/>)}>
+                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} />)}>
                     <ListItemText primary="Recipe List" />
                 </ListItem>
                 <ListItem button onClick={() => setBasePage(<CreateRecipePage />)}>
