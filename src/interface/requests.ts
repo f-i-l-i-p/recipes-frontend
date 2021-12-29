@@ -1,6 +1,6 @@
 import Ingredient from "../types/ingredient";
 
-const URL = "http://127.0.0.1:5000";
+const URL = "https://recipes-backend-heroku.herokuapp.com/";
 
 let token = "";
 
