@@ -1,4 +1,4 @@
-import { CircularProgress, Divider, ListItem, ListItemButton, ListItemText, Stack } from "@mui/material";
+import { CircularProgress, ListItem, ListItemButton, ListItemText, Paper, Stack } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { latestRecipesRequest } from "../../../interface/requests";
@@ -40,12 +40,11 @@ const RecipeListPage = (props: Props) => {
             }
             {recipes.map((recipe, index) =>
                 <React.Fragment key={index}>
-                    <ListItem>
+                    <ListItem component={Paper} style={{marginBottom: "8px"}} disablePadding>
                         <ListItemButton onClick={() => openPage(recipe)}>
-                            <ListItemText primary={recipe.name} />
+                            <ListItemText primary={recipe.name} secondary={recipe.user}/>
                         </ListItemButton>
                     </ListItem>
-                    <Divider />
                 </React.Fragment>
             )}
         </Stack>

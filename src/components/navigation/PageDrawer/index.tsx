@@ -26,7 +26,6 @@ function PageDrawer() {
     }
 
     const pushHistoryPage = (page: JSX.Element) => {
-        //history.push(page)
         setHistory([...history, page])
     }
 
