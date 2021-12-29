@@ -35,6 +35,9 @@ const InstructionMaker = (props: Props) => {
                 InputLabelProps={{
                     shrink: true,
                 }}
+                sx = {{
+                    width: "100%"
+                }}
             />
             <Fab color="primary" aria-label="add" size="small" type="submit">
                 <AddIcon />

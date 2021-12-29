@@ -1,5 +1,5 @@
 import { Autocomplete, Box, Fab, Stack, TextField } from "@mui/material";
-import Ingredient from "../../types/ingredient";
+import Ingredient from "../../../types/ingredient";
 import AddIcon from "@mui/icons-material/Add";
 
 interface Props {
@@ -42,10 +42,14 @@ const IngredientMaker = (props: Props) => {
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    sx={{
+                        width: "25%"
+                    }}
                 />
                 <Autocomplete
                     size="small"
                     disablePortal
+                    freeSolo
                     options={units}
                     renderInput={(params: any) => <TextField
                         {...params}
@@ -55,6 +59,9 @@ const IngredientMaker = (props: Props) => {
                             shrink: true,
                         }}
                     />}
+                    sx={{
+                        width: "20%"
+                    }}
                 />
                 <TextField
                     required
@@ -64,6 +71,9 @@ const IngredientMaker = (props: Props) => {
                     name="name"
                     InputLabelProps={{
                         shrink: true,
+                    }}
+                    sx={{
+                        width: "55%"
                     }}
                 />
             </Stack>
