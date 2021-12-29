@@ -89,7 +89,7 @@ function PageDrawer() {
                         </IconButton>
                     }
                     <Typography variant="h6" noWrap component="div">
-                        Responsive drawer
+                        Recipes
                     </Typography>
                 </Toolbar>
             </AppBar>

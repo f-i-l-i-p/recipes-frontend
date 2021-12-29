@@ -49,7 +49,7 @@ const RecipePage = (props: Props) => {
             {recipe &&
                 <React.Fragment>
                     {imageURL &&
-                        <img src={imageURL} style={{ width: "100%", aspectRatio: "1 / 1" }} />
+                        <img src={imageURL} style={{ width: "100%", aspectRatio: "1 / 1", maxHeight: "100vw" }} />
                     }
                     <Typography component="h1" variant="h5">
                         {recipe.name}

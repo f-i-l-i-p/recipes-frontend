@@ -130,7 +130,7 @@ const CreateRecipePage = () => {
                 {
                     image &&
                     <Paper elevation={2} style={{ overflow: "hidden", aspectRatio: "1 / 1" }}>
-                        <img src={image.url} style={{ width: "100%", aspectRatio: "1 / 1" }} />
+                        <img src={image.url} style={{ width: "100%", aspectRatio: "1 / 1", maxHeight: "100vw" }} />
                     </Paper>
                 }
                 <label htmlFor="icon-button-file">
