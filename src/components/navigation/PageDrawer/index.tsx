@@ -13,6 +13,9 @@ function PageDrawer() {
     const onLogin = (token: String) => {
         setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
     }
+    const onCreateRecipe = () => {
+        setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
+    }
     
     const [mobileOpen, setMobileOpen] = useState(false);
     const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
@@ -49,7 +52,7 @@ function PageDrawer() {
                 <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} />)}>
                     <ListItemText primary="Recipe List" />
                 </ListItem>
-                <ListItem button onClick={() => setBasePage(<CreateRecipePage />)}>
+                <ListItem button onClick={() => setBasePage(<CreateRecipePage onCreateRecipe={onCreateRecipe} />)}>
                     <ListItemText primary="Create Recipe" />
                 </ListItem>
             </List>
