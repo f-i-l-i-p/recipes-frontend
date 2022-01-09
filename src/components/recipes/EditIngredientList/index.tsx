@@ -46,7 +46,7 @@ const EditIngredientList = (props: Props) => {
     }
 
     return (
-        <Box component={Paper}>
+        <Box component={Paper} sx={{paddingBottom: "16px"}}>
             <List>
                 {props.ingredients.map((ingredient, index) =>
                     <React.Fragment>

@@ -1,4 +1,4 @@
-import { Button, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import Ingredient from "../../../types/ingredient";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -6,6 +6,7 @@ import { encodeImageFileToBase64, isImage } from "../../../helpers/imageHelper";
 import { uploadRecipeRequest } from "../../../interface/requests";
 import EditIngredientList from "../../recipes/EditIngredientList";
 import EditInstructionList from "../../recipes/EditInstructionList";
+import PhotoIcon from '@mui/icons-material/Photo';
 
 interface Props {
     onCreateRecipe: () => void,
@@ -60,15 +61,21 @@ const CreateRecipePage = (props: Props) => {
     }
 
     return (
-        <Stack spacing={2}>
-            <Paper elevation={2} id="main-form" component="form" onSubmit={onUploadRecipe}>
+        <Stack spacing={4}>
+            <Box sx={{marginTop: "0px !important"}} />
+
+            <Paper id="main-form" component="form" onSubmit={onUploadRecipe} sx={{ p: "16px" }}>
                 <TextField
                     required
+                    variant="standard"
                     size="small"
                     label="Namn"
                     type="text"
                     name="name"
                     onChange={(event) => setName(event.target.value)}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
                     sx={{
                         width: "100%"
                     }}
@@ -90,22 +97,31 @@ const CreateRecipePage = (props: Props) => {
                 <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
                     Bild
                 </Typography>
-                {
-                    image &&
-                    <Paper elevation={2} style={{ overflow: "hidden", aspectRatio: "1 / 1" }}>
-                        <img src={image.url} style={{ width: "100%", aspectRatio: "1 / 1", maxHeight: "100vw" }} />
-                    </Paper>
-                }
-                <label htmlFor="icon-button-file">
-                    <input id="icon-button-file" accept="image/*" type="file" style={{ display: "none" }} onChange={(event) => onImageUpload(event)} />
-                    <Button color="primary" aria-label="upload picture" component="span" variant="contained" endIcon={<PhotoCamera />}>
-                        Välj bild
-                    </Button>
-                </label>
+                <Paper sx={{ overflow: "hidden" }}>
+                    <Stack direction="row">
+                        <div style={{ width: "40%", aspectRatio: "1 / 1", maxHeight: "40vw", backgroundColor: "#0002", display: "flex", alignItems: "center", justifyContent: "center" }} >
+                            {image ?
+                                <img src={image.url} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                :
+                                <PhotoIcon sx={{ minHeight: "20%", minWidth: "20%" }} />
+                            }
+                        </div>
+                        <div style={{ width: "100%", alignSelf: "center" }}>
+                            <label htmlFor="icon-button-file">
+                                <input id="icon-button-file" accept="image/*" type="file" style={{ display: "none" }} onChange={(event) => onImageUpload(event)} />
+                                <Button color="primary" aria-label="upload picture" component="span" variant="contained" endIcon={<PhotoCamera />} sx={{m: "16px"}}>
+                                    Välj bild
+                                </Button>
+                            </label>
+                        </div>
+                    </Stack>
+                </Paper>
             </div>
+            <Box sx={{marginTop: "32px !important"}} />
             <Button type="submit" variant="contained" form="main-form">
-                 Klar
+                Klar
             </Button>
+            <Box sx={{marginTop: "100px !important"}} />
         </Stack >
     )
 }

@@ -39,7 +39,7 @@ const EditInstructionList = (props: Props) => {
     }
 
     return (
-        <Box component={Paper}>
+        <Box component={Paper} sx={{paddingBottom: "16px"}}>
             <List>
                 {props.instructions.map((instruction, index) =>
                     <React.Fragment>
