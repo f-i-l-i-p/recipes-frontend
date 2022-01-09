@@ -7,6 +7,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddIcon from '@mui/icons-material/Add';
+import PeopleIcon from '@mui/icons-material/People';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const DRAWER_WIDTH = 240;
 
@@ -38,6 +41,7 @@ function PageDrawer() {
         history.length = 0
         history.push(page)
         setHistory([...history])
+        setMobileOpen(false);
     }
 
     const handleDrawerToggle = () => {
@@ -62,6 +66,27 @@ function PageDrawer() {
                         <AddIcon />
                     </ListItemIcon>
                     <ListItemText primary="Nytt Recept" />
+                </ListItem>
+                <ListItem disabled button>
+                    <ListItemIcon>
+                        <PeopleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Vänner" />
+                </ListItem>
+                <ListItem disabled button>
+                    <ListItemIcon>
+                        <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Inställningar" />
+                </ListItem>
+            </List>
+            <Divider />
+            <List>
+                <ListItem disabled button>
+                    <ListItemIcon>
+                        <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Logga ut" />
                 </ListItem>
             </List>
             <Divider />
