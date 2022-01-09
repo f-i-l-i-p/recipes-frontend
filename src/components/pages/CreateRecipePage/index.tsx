@@ -65,7 +65,7 @@ const CreateRecipePage = (props: Props) => {
                 <TextField
                     required
                     size="small"
-                    label="Name"
+                    label="Namn"
                     type="text"
                     name="name"
                     onChange={(event) => setName(event.target.value)}
@@ -76,19 +76,19 @@ const CreateRecipePage = (props: Props) => {
             </Paper >
             <div>
                 <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
-                    Ingredients
+                    Ingredienser
                 </Typography>
                 <EditIngredientList ingredients={ingredients} setIngredients={setIngredients} />
             </div>
             <div>
                 <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
-                    Instructions
+                    Instruktioner
                 </Typography>
                 <EditInstructionList instructions={instructions} setInstructions={setInstructions} />
             </div>
             <div>
                 <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
-                    Image
+                    Bild
                 </Typography>
                 {
                     image &&
@@ -99,12 +99,12 @@ const CreateRecipePage = (props: Props) => {
                 <label htmlFor="icon-button-file">
                     <input id="icon-button-file" accept="image/*" type="file" style={{ display: "none" }} onChange={(event) => onImageUpload(event)} />
                     <Button color="primary" aria-label="upload picture" component="span" variant="contained" endIcon={<PhotoCamera />}>
-                        Upload Photo
+                        Välj bild
                     </Button>
                 </label>
             </div>
             <Button type="submit" variant="contained" form="main-form">
-                Create Recipe
+                 Klar
             </Button>
         </Stack >
     )

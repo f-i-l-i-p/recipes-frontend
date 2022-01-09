@@ -72,7 +72,7 @@ const EditIngredientList = (props: Props) => {
                         id="ingredient-form-start"
                         size="small"
                         variant="standard"
-                        label="Quantity"
+                        label="Mängd"
                         type="number"
                         name="quantity"
                         InputLabelProps={{
@@ -85,7 +85,7 @@ const EditIngredientList = (props: Props) => {
                     <TextField
                         variant="standard"
                         size="small"
-                        label="Unit"
+                        label="Enhet"
                         type="text"
                         name="unit"
                         InputLabelProps={{
@@ -99,7 +99,7 @@ const EditIngredientList = (props: Props) => {
                         required
                         variant="standard"
                         size="small"
-                        label="Name"
+                        label="Namn"
                         type="text"
                         name="name"
                         InputLabelProps={{

@@ -82,12 +82,12 @@ const LoginPage = (props: LoginPageProps) => {
                 <Paper>
                     <Stack spacing={1} component="form" onSubmit={handleLoginSubmit}>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Logga in
                         </Typography>
                         <TextField
                             id="outlined-required"
                             required
-                            label="Email"
+                            label="Mejladress"
                             type="text"
                             name="email"
                             autoComplete="email"
@@ -95,23 +95,23 @@ const LoginPage = (props: LoginPageProps) => {
                         <TextField
                             id="outlined-required"
                             required
-                            label="Password"
+                            label="Lösenord"
                             type="password"
                             name="password"
                             autoComplete="current-password"
                         />
-                        <Button disabled={isLoginLoading} variant="contained" type="submit">Sign in</Button>
+                        <Button disabled={isLoginLoading} variant="contained" type="submit">Logga in</Button>
                     </Stack>
                 </Paper>
                 <Paper>
                     <Stack spacing={1} component="form" onSubmit={handleCreateSubmit}>
                         <Typography component="h1" variant="h5">
-                            Create account
+                            Skapa konto
                         </Typography>
                         <TextField
                             id="outlined-required"
                             required
-                            label="Username"
+                            label="Användarnamn"
                             type="text"
                             name="username"
                             autoComplete="username"
@@ -119,7 +119,7 @@ const LoginPage = (props: LoginPageProps) => {
                         <TextField
                             id="outlined-required"
                             required
-                            label="Email"
+                            label="Mejladress"
                             type="text"
                             name="email"
                             autoComplete="email"
@@ -127,12 +127,12 @@ const LoginPage = (props: LoginPageProps) => {
                         <TextField
                             id="outlined-required"
                             required
-                            label="Password"
+                            label="Lösenord"
                             type="password"
                             name="password"
                             autoComplete="new-password"
                         />
-                        <Button disabled={isCreateLoading} variant="contained" type="submit">Create</Button>
+                        <Button disabled={isCreateLoading} variant="contained" type="submit">Skapa</Button>
                     </Stack>
                 </Paper>
             </Stack>

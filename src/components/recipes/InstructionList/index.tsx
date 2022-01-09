@@ -11,7 +11,7 @@ const InstructionsList = (props: Props) => {
     return (
         <div>
             <Typography variant="h6" component="h2" align="left" sx={{marginLeft: "8px"}}>
-                Instructions
+                Instruktioner
             </Typography>
             <TableContainer component={Paper}>
                 <Table sx={{ width: "100%" }}>

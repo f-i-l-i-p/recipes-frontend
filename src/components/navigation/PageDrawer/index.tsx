@@ -1,10 +1,12 @@
-import { Toolbar, Divider, List, ListItem, ListItemText, Box, CssBaseline, AppBar, IconButton, Typography, Drawer } from "@mui/material";
+import { Toolbar, Divider, List, ListItem, ListItemText, Box, CssBaseline, AppBar, IconButton, Typography, Drawer, ListItemIcon } from "@mui/material";
 import { useState } from "react";
 import CreateRecipePage from "../../pages/CreateRecipePage";
 import LoginPage from "../../pages/LoginPage";
 import RecipeListPage from "../../pages/RecipeListPage";
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AddIcon from '@mui/icons-material/Add';
 
 const DRAWER_WIDTH = 240;
 
@@ -16,7 +18,7 @@ function PageDrawer() {
     const onCreateRecipe = () => {
         setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
     }
-    
+
     const [mobileOpen, setMobileOpen] = useState(false);
     const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
 
@@ -50,10 +52,16 @@ function PageDrawer() {
             <Divider />
             <List>
                 <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} />)}>
-                    <ListItemText primary="Recipe List" />
+                    <ListItemIcon>
+                        <MenuBookIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Recept" />
                 </ListItem>
                 <ListItem button onClick={() => setBasePage(<CreateRecipePage onCreateRecipe={onCreateRecipe} />)}>
-                    <ListItemText primary="Create Recipe" />
+                    <ListItemIcon>
+                        <AddIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Nytt Recept" />
                 </ListItem>
             </List>
             <Divider />
@@ -92,7 +100,7 @@ function PageDrawer() {
                         </IconButton>
                     }
                     <Typography variant="h6" noWrap component="div">
-                        Recipes
+                        Recept App
                     </Typography>
                 </Toolbar>
             </AppBar>

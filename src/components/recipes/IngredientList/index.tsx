@@ -12,7 +12,7 @@ const IngredientList = (props: Props) => {
     return (
         <div>
             <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
-                Ingredients
+                Ingredienser
             </Typography>
             <TableContainer component={Paper}>
                 <Table sx={{ width: "100%" }}>

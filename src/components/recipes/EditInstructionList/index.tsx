@@ -66,7 +66,7 @@ const EditInstructionList = (props: Props) => {
                     id="instruction-form-start"
                     variant="standard"
                     size="small"
-                    label="Instruction"
+                    label="Instruktion"
                     type="text"
                     name="instruction"
                     InputLabelProps={{
