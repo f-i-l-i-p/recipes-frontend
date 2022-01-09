@@ -10,13 +10,20 @@ import AddIcon from '@mui/icons-material/Add';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { logoutRequest } from "../../../interface/requests";
 
 const DRAWER_WIDTH = 240;
 
 function PageDrawer() {
 
-    const onLogin = (token: String) => {
+    const onLogin = () => {
         setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
+    }
+    const logout = () => {
+        logoutRequest({
+            onSuccess: () => setBasePage(<LoginPage onLogin={onLogin} />),
+            onError: () => {alert("Error")},
+        })
     }
     const onCreateRecipe = () => {
         setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
@@ -82,7 +89,7 @@ function PageDrawer() {
             </List>
             <Divider />
             <List>
-                <ListItem disabled button>
+                <ListItem button onClick={() => logout()}>
                     <ListItemIcon>
                         <LogoutIcon />
                     </ListItemIcon>

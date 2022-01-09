@@ -1,10 +1,11 @@
 import { Stack, Paper, Typography, TextField, Button } from '@mui/material';
+import React from 'react';
 import { useState } from 'react';
-import { createAccountRequest, loginRequest } from '../../../interface/requests';
+import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../interface/requests';
 import "./style.css";
 
 export interface LoginPageProps {
-    onLogin: (token: string) => void,
+    onLogin: () => void,
 }
 
 // TODO: Warn user if error
@@ -22,7 +23,7 @@ const LoginPage = (props: LoginPageProps) => {
             onSuccess: (json) => {
                 setIsLoginLoading(false);
                 setIsCreateLoading(false);
-                props.onLogin(json.token);
+                props.onLogin();
             },
             onError: (json) => {
                 setIsLoginLoading(false);
@@ -75,6 +76,18 @@ const LoginPage = (props: LoginPageProps) => {
 
         createAccount(name, email, password)
     };
+
+    // Automatically login if valid token
+    const checkToken = () => {
+        checkTokenRequest({
+            onSuccess: (json) => props.onLogin(),
+            onError: (json) => {},
+        })
+    }
+
+    React.useEffect(() => {
+        checkToken();
+    }, []);
 
     return (
         <div id="login-page">
