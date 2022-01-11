@@ -22,7 +22,7 @@ function PageDrawer() {
     const logout = () => {
         logoutRequest({
             onSuccess: () => setBasePage(<LoginPage onLogin={onLogin} />),
-            onError: () => {alert("Error")},
+            onError: () => { alert("Error") },
         })
     }
     const onCreateRecipe = () => {
