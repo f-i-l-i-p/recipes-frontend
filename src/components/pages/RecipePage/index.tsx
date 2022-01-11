@@ -1,4 +1,4 @@
-import { CircularProgress, Stack, Typography } from "@mui/material";
+import { Button, CircularProgress, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { dataURLtoFile } from "../../../helpers/imageHelper";
@@ -6,9 +6,13 @@ import { recipeRequest } from "../../../interface/requests";
 import { Recipe } from "../../../types/ingredient";
 import IngredientList from "../../recipes/IngredientList";
 import InstructionList from "../../recipes/InstructionList";
+import EditIcon from '@mui/icons-material/Edit';
+import CreateRecipePage from "../CreateRecipePage";
 
 interface Props {
     id: number,
+    openPage: (page: JSX.Element) => void,
+    popPage: () => void,
 }
 
 /**
@@ -31,6 +35,10 @@ const RecipePage = (props: Props) => {
         })
     }
 
+    const editRecipe = () => {
+        props.openPage(<CreateRecipePage onCreateRecipe={() => props.popPage()} recipe={recipe || undefined} />)
+    }
+
     React.useEffect(() => {
         request();
     }, []);
@@ -42,20 +50,24 @@ const RecipePage = (props: Props) => {
 
     return (
         <Stack spacing={2}>
-            {isLoading &&
+            {isLoading ?
                 <CircularProgress />
-            }
-
-            {recipe &&
+                :
                 <React.Fragment>
-                    {imageURL &&
-                        <img src={imageURL} style={{ width: "100%", aspectRatio: "1 / 1", maxHeight: "100vw" }} />
+                    {recipe &&
+                        <React.Fragment>
+                            {imageURL &&
+                                <img src={imageURL} style={{ width: "100%", aspectRatio: "1 / 1", maxHeight: "100vw" }} />
+                            }
+                            <Typography component="h1" variant="h5">
+                                {recipe.name}
+                            </Typography>
+                            <IngredientList ingredients={recipe.ingredients} />
+                            <InstructionList instructions={recipe.instructions} />
+                            {/* TODO: Only show if recipe created by user */}
+                            <Button variant="text" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
+                        </React.Fragment>
                     }
-                    <Typography component="h1" variant="h5">
-                        {recipe.name}
-                    </Typography>
-                    <IngredientList ingredients={recipe.ingredients} />
-                    <InstructionList instructions={recipe.instructions} />
                 </React.Fragment>
             }
         </Stack>

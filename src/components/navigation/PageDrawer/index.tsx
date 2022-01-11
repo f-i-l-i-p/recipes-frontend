@@ -17,7 +17,7 @@ const DRAWER_WIDTH = 240;
 function PageDrawer() {
 
     const onLogin = () => {
-        setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
+        setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={() => popHistoryPage()} />)
     }
     const logout = () => {
         logoutRequest({
@@ -26,7 +26,7 @@ function PageDrawer() {
         })
     }
     const onCreateRecipe = () => {
-        setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
+        setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={() => popHistoryPage()}/>)
     }
 
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -62,7 +62,7 @@ function PageDrawer() {
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} />)}>
+                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={popHistoryPage} />)}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>

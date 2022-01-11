@@ -1,6 +1,6 @@
 import { Box, Button, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import Ingredient from "../../../types/ingredient";
+import Ingredient, { Recipe } from "../../../types/ingredient";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { encodeImageFileToBase64, isImage } from "../../../helpers/imageHelper";
 import { uploadRecipeRequest } from "../../../interface/requests";
@@ -10,12 +10,13 @@ import PhotoIcon from '@mui/icons-material/Photo';
 
 interface Props {
     onCreateRecipe: () => void,
+    recipe?: Recipe,
 }
 
 const CreateRecipePage = (props: Props) => {
-    const [name, setName] = useState<string>()
-    const [ingredients, setIngredients] = useState<Ingredient[]>([])
-    const [instructions, setInstructions] = useState<string[]>([])
+    const [recipeName, setRecipeName] = useState<string>(props.recipe?.name || "")
+    const [ingredients, setIngredients] = useState<Ingredient[]>(props.recipe?.ingredients || [])
+    const [instructions, setInstructions] = useState<string[]>(props.recipe?.instructions || [])
     const [image, setImage] = useState<{ file: File, url: string }>()
 
     const onImageUpload = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -72,7 +73,8 @@ const CreateRecipePage = (props: Props) => {
                     label="Namn"
                     type="text"
                     name="name"
-                    onChange={(event) => setName(event.target.value)}
+                    defaultValue={recipeName}
+                    onChange={(event) => setRecipeName(event.target.value)}
                     InputLabelProps={{
                         shrink: true,
                     }}

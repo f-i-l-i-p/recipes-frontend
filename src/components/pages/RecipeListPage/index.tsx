@@ -7,6 +7,7 @@ import RecipePage from "../RecipePage";
 
 interface Props {
     openPage: (page: JSX.Element) => void,
+    popPage: () => void,
 }
 
 const RecipeListPage = (props: Props) => {
@@ -26,7 +27,7 @@ const RecipeListPage = (props: Props) => {
     }
 
     const openPage = (recipeListItem: RecipeListItem) => {
-        props.openPage(<RecipePage id={recipeListItem.id} />)
+        props.openPage(<RecipePage id={recipeListItem.id} openPage={props.openPage} popPage={props.popPage} />)
     }
 
     React.useEffect(() => {
