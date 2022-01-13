@@ -1,6 +1,5 @@
 import { Toolbar, Divider, List, ListItem, ListItemText, Box, CssBaseline, AppBar, IconButton, Typography, Drawer, ListItemIcon } from "@mui/material";
 import { useState } from "react";
-import CreateRecipePage from "../../pages/CreateRecipePage";
 import LoginPage from "../../pages/LoginPage";
 import RecipeListPage from "../../pages/RecipeListPage";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -10,7 +9,9 @@ import AddIcon from '@mui/icons-material/Add';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { logoutRequest } from "../../../interface/requests";
+import CreateRecipePage from "../../pages/CreateRecipePage";
 
 const DRAWER_WIDTH = 240;
 
@@ -25,7 +26,7 @@ function PageDrawer() {
             onError: () => { alert("Error") },
         })
     }
-    const onCreateRecipe = () => {
+    const onRecipeCreated = () => {
         setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={() => popHistoryPage()}/>)
     }
 
@@ -33,6 +34,7 @@ function PageDrawer() {
     const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
 
     const popHistoryPage = () => {
+        console.log("pop", console.log(history))
         if (history.length > 1) {
             const newHistory = [...history]
             newHistory.pop()
@@ -62,17 +64,23 @@ function PageDrawer() {
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={popHistoryPage} />)}>
+                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={() => popHistoryPage()} />)}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>
                     <ListItemText primary="Recept" />
                 </ListItem>
-                <ListItem button onClick={() => setBasePage(<CreateRecipePage onCreateRecipe={onCreateRecipe} />)}>
+                <ListItem button onClick={() => setBasePage(<CreateRecipePage onComplete={() => onRecipeCreated()} />)}>
                     <ListItemIcon>
                         <AddIcon />
                     </ListItemIcon>
                     <ListItemText primary="Nytt Recept" />
+                </ListItem>
+                <ListItem disabled button>
+                    <ListItemIcon>
+                        <FavoriteIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Sparade Recept" />
                 </ListItem>
                 <ListItem disabled button>
                     <ListItemIcon>

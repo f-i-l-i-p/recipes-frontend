@@ -3,16 +3,17 @@ import React from "react";
 import { useState } from "react";
 import { dataURLtoFile } from "../../../helpers/imageHelper";
 import { recipeRequest } from "../../../interface/requests";
-import { Recipe } from "../../../types/ingredient";
+import Ingredient, { Recipe } from "../../../types/ingredient";
 import IngredientList from "../../recipes/IngredientList";
 import InstructionList from "../../recipes/InstructionList";
 import EditIcon from '@mui/icons-material/Edit';
-import CreateRecipePage from "../CreateRecipePage";
+import RecipeEditor from "../../recipes/RecipeEditor";
+import EditRecipePage from "../EditRecipePage";
 
 interface Props {
     id: number,
     openPage: (page: JSX.Element) => void,
-    popPage: () => void,
+    popPage: () => void
 }
 
 /**
@@ -21,7 +22,7 @@ interface Props {
  */
 const RecipePage = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [recipe, setRecipe] = useState<Recipe | null>(null)
+    const [recipe, setRecipe] = useState<Recipe>()
 
     const request = () => {
         recipeRequest(props.id, {
@@ -35,8 +36,12 @@ const RecipePage = (props: Props) => {
         })
     }
 
+    const onEditDone = () => {
+        props.popPage()
+    }
+
     const editRecipe = () => {
-        props.openPage(<CreateRecipePage onCreateRecipe={() => props.popPage()} recipe={recipe || undefined} />)
+        props.openPage(<EditRecipePage onComplete={() => onEditDone()} recipe={recipe} />)
     }
 
     React.useEffect(() => {
