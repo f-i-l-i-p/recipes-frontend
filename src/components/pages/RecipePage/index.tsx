@@ -3,11 +3,10 @@ import React from "react";
 import { useState } from "react";
 import { dataURLtoFile } from "../../../helpers/imageHelper";
 import { recipeRequest } from "../../../interface/requests";
-import Ingredient, { Recipe } from "../../../types/ingredient";
+import { Recipe } from "../../../types/ingredient";
 import IngredientList from "../../recipes/IngredientList";
 import InstructionList from "../../recipes/InstructionList";
 import EditIcon from '@mui/icons-material/Edit';
-import RecipeEditor from "../../recipes/RecipeEditor";
 import EditRecipePage from "../EditRecipePage";
 
 interface Props {

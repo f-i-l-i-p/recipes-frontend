@@ -1,55 +1,43 @@
 import { Toolbar, Divider, List, ListItem, ListItemText, Box, CssBaseline, AppBar, IconButton, Typography, Drawer, ListItemIcon } from "@mui/material";
 import { useState } from "react";
-import LoginPage from "../../pages/LoginPage";
-import RecipeListPage from "../../pages/RecipeListPage";
-import MenuIcon from '@mui/icons-material/Menu';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddIcon from '@mui/icons-material/Add';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { logoutRequest } from "../../../interface/requests";
-import CreateRecipePage from "../../pages/CreateRecipePage";
+import MenuIcon from '@mui/icons-material/Menu';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CreateRecipePage from "../../components/pages/CreateRecipePage";
+import LoginPage from "../../components/pages/LoginPage";
+import RecipeListPage from "../../components/pages/RecipeListPage";
+import { logoutRequest } from "../../interface/requests";
+import { popPage, pushPage, setBasePage } from "./navigationSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 const DRAWER_WIDTH = 240;
 
-function PageDrawer() {
+function Navigation() {
+    const pages = useAppSelector((state) => state.navigation.pages)
+    const dispatch = useAppDispatch()
 
     const onLogin = () => {
-        setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={() => popHistoryPage()} />)
+        setBase(<RecipeListPage openPage={(page) => dispatch(pushPage(page))} popPage={() => dispatch(popPage())} />)
     }
     const logout = () => {
         logoutRequest({
-            onSuccess: () => setBasePage(<LoginPage onLogin={onLogin} />),
+            onSuccess: () => setBase(<LoginPage onLogin={onLogin} />),
             onError: () => { alert("Error") },
         })
     }
     const onRecipeCreated = () => {
-        setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={() => popHistoryPage()}/>)
+        setBase(<RecipeListPage openPage={(page) => dispatch(pushPage(page))} popPage={() => dispatch(popPage())} />)
     }
 
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
 
-    const popHistoryPage = () => {
-        console.log("pop", console.log(history))
-        if (history.length > 1) {
-            const newHistory = [...history]
-            newHistory.pop()
-            setHistory([...newHistory])
-        }
-    }
-
-    const pushHistoryPage = (page: JSX.Element) => {
-        setHistory([...history, page])
-    }
-
-    const setBasePage = (page: JSX.Element) => {
-        history.length = 0
-        history.push(page)
-        setHistory([...history])
+    const setBase = (page: JSX.Element) => {
+        dispatch(setBasePage(page))
         setMobileOpen(false);
     }
 
@@ -57,20 +45,20 @@ function PageDrawer() {
         setMobileOpen(!mobileOpen);
     };
 
-    const currentPage = history[history.length - 1]
+    const currentPage = pages[pages.length - 1]
 
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} popPage={() => popHistoryPage()} />)}>
+                <ListItem button onClick={() => setBase(<RecipeListPage openPage={(page) => dispatch(pushPage(page))} popPage={() => dispatch(popPage())} />)}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>
                     <ListItemText primary="Recept" />
                 </ListItem>
-                <ListItem button onClick={() => setBasePage(<CreateRecipePage onComplete={() => onRecipeCreated()} />)}>
+                <ListItem button onClick={() => setBase(<CreateRecipePage onComplete={() => onRecipeCreated()} />)}>
                     <ListItemIcon>
                         <AddIcon />
                     </ListItemIcon>
@@ -128,12 +116,12 @@ function PageDrawer() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    {history.length > 1 &&
+                    {pages.length > 1 &&
                         <IconButton
                             color="inherit"
                             aria-label="back"
                             edge="start"
-                            onClick={popHistoryPage}
+                            onClick={() => dispatch(popPage())}
                             sx={{ mr: 2 }}
                         >
                             <ArrowBackIcon />
@@ -185,4 +173,4 @@ function PageDrawer() {
     );
 }
 
-export default PageDrawer
+export default Navigation
