@@ -42,9 +42,8 @@ const EditInstructionList = (props: Props) => {
         <Box component={Paper} sx={{paddingBottom: "16px"}}>
             <List>
                 {props.instructions.map((instruction, index) =>
-                    <React.Fragment>
+                    <React.Fragment key={index}>
                         <ListItem
-                            key={index}
                             secondaryAction={
                                 <IconButton edge="end" aria-label="delete" onClick={() => removeInstruction(index)}>
                                     <RemoveIcon />

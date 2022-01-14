@@ -2,22 +2,21 @@ import RecipeEditor from "../../recipes/RecipeEditor";
 import Ingredient from "../../../types/ingredient";
 import { uploadRecipeRequest } from "../../../interface/requests";
 import { useState } from "react";
-
-interface Props {
-    onComplete: () => void,
-}
+import { useAppDispatch } from "../../../app/hooks";
+import { BasePage, setBasePage } from "../../../features/navigation/navigationSlice";
 
 /**
  * Page for creating new recipes.
  */
-function CreateRecipePage(props: Props) {
+function CreateRecipePage() {
+    const dispatch = useAppDispatch()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const onCreate = (name: string, ingredients: Ingredient[], instructions: string[], image: string | undefined) => {
         setIsLoading(true)
         
         const onSuccess = (json: any) => {
-            props.onComplete()
+            dispatch(setBasePage(BasePage.RecipeList))
             setIsLoading(false)
         }
         const onError = (json: any) => {

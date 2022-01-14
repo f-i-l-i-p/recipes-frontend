@@ -49,9 +49,8 @@ const EditIngredientList = (props: Props) => {
         <Box component={Paper} sx={{paddingBottom: "16px"}}>
             <List>
                 {props.ingredients.map((ingredient, index) =>
-                    <React.Fragment>
+                    <React.Fragment key={index}>
                         <ListItem
-                            key={index}
                             secondaryAction={
                                 <IconButton edge="end" aria-label="delete" onClick={() => removeIngredient(index)}>
                                     <RemoveIcon />

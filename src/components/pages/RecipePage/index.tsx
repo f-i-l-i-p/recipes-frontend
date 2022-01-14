@@ -8,11 +8,11 @@ import IngredientList from "../../recipes/IngredientList";
 import InstructionList from "../../recipes/InstructionList";
 import EditIcon from '@mui/icons-material/Edit';
 import EditRecipePage from "../EditRecipePage";
+import { useAppDispatch } from "../../../app/hooks";
+import { popPage, pushPage } from "../../../features/navigation/navigationSlice";
 
 interface Props {
     id: number,
-    openPage: (page: JSX.Element) => void,
-    popPage: () => void
 }
 
 /**
@@ -20,6 +20,7 @@ interface Props {
  * @param props Recipe id.
  */
 const RecipePage = (props: Props) => {
+    const dispatch = useAppDispatch()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [recipe, setRecipe] = useState<Recipe>()
 
@@ -36,11 +37,11 @@ const RecipePage = (props: Props) => {
     }
 
     const onEditDone = () => {
-        props.popPage()
+        dispatch(popPage())
     }
 
     const editRecipe = () => {
-        props.openPage(<EditRecipePage onComplete={() => onEditDone()} recipe={recipe} />)
+        dispatch(pushPage(<EditRecipePage onComplete={() => onEditDone()} recipe={recipe} />))
     }
 
     React.useEffect(() => {

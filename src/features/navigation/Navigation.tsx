@@ -8,11 +8,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CreateRecipePage from "../../components/pages/CreateRecipePage";
-import LoginPage from "../../components/pages/LoginPage";
-import RecipeListPage from "../../components/pages/RecipeListPage";
 import { logoutRequest } from "../../interface/requests";
-import { popPage, pushPage, setBasePage } from "./navigationSlice";
+import { BasePage, popPage, setBasePage } from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 const DRAWER_WIDTH = 240;
@@ -21,23 +18,16 @@ function Navigation() {
     const pages = useAppSelector((state) => state.navigation.pages)
     const dispatch = useAppDispatch()
 
-    const onLogin = () => {
-        setBase(<RecipeListPage openPage={(page) => dispatch(pushPage(page))} popPage={() => dispatch(popPage())} />)
-    }
-    const logout = () => {
+    const [mobileOpen, setMobileOpen] = useState(false);
+    
+    const handleLogout = () => {
         logoutRequest({
-            onSuccess: () => setBase(<LoginPage onLogin={onLogin} />),
+            onSuccess: () => dispatch(setBasePage(BasePage.Login)),
             onError: () => { alert("Error") },
         })
     }
-    const onRecipeCreated = () => {
-        setBase(<RecipeListPage openPage={(page) => dispatch(pushPage(page))} popPage={() => dispatch(popPage())} />)
-    }
 
-    const [mobileOpen, setMobileOpen] = useState(false);
-
-    const setBase = (page: JSX.Element) => {
-        dispatch(setBasePage(page))
+    const onListClick = () => {
         setMobileOpen(false);
     }
 
@@ -52,13 +42,13 @@ function Navigation() {
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => setBase(<RecipeListPage openPage={(page) => dispatch(pushPage(page))} popPage={() => dispatch(popPage())} />)}>
+                <ListItem button onClick={() => {onListClick(); dispatch(setBasePage(BasePage.RecipeList))}}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>
                     <ListItemText primary="Recept" />
                 </ListItem>
-                <ListItem button onClick={() => setBase(<CreateRecipePage onComplete={() => onRecipeCreated()} />)}>
+                <ListItem button onClick={() => {onListClick(); dispatch(setBasePage(BasePage.CreateRecipe))}}>
                     <ListItemIcon>
                         <AddIcon />
                     </ListItemIcon>
@@ -85,7 +75,7 @@ function Navigation() {
             </List>
             <Divider />
             <List>
-                <ListItem button onClick={() => logout()}>
+                <ListItem button onClick={() => {onListClick(); handleLogout()}}>
                     <ListItemIcon>
                         <LogoutIcon />
                     </ListItemIcon>
