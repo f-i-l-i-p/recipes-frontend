@@ -1,11 +1,10 @@
-import { CircularProgress } from '@material-ui/core';
+import { Box, CircularProgress, Container } from '@material-ui/core';
 import { Stack, Paper, Typography, TextField, Button } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
 import { BasePage, setBasePage } from '../../../features/navigation/navigationSlice';
 import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../interface/requests';
-import "./style.css";
 
 // TODO: Warn user if error
 /**
@@ -100,8 +99,8 @@ const LoginPage = () => {
             {isStartupLoading ?
                 <CircularProgress sx={{position: "absolute", top: "50%" }}/>
                 :
-                <Stack>
-                    <Paper>
+                <Stack spacing={3} sx={{maxWidth: "400px", alignSelf: "center", margin: "auto"}}>
+                    <Paper sx={{p: "16px"}}>
                         <Stack spacing={1} component="form" onSubmit={handleLoginSubmit}>
                             <Typography component="h1" variant="h5">
                                 Logga in
@@ -125,7 +124,7 @@ const LoginPage = () => {
                             <Button disabled={isLoginLoading} variant="contained" type="submit">Logga in</Button>
                         </Stack>
                     </Paper>
-                    <Paper>
+                    <Paper sx={{p: "16px"}}>
                         <Stack spacing={1} component="form" onSubmit={handleCreateSubmit}>
                             <Typography component="h1" variant="h5">
                                 Skapa konto
