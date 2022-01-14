@@ -22,9 +22,12 @@ const IngredientList = (props: Props) => {
                                 key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell sx={{paddingRight: 0}} align="right">{ingredient.quantity}</TableCell>
-                                <TableCell sx={{paddingLeft: "8px"}}>{ingredient.unit}</TableCell>
-                                <TableCell sx={{ width: "99%" }}>{ingredient.name}</TableCell>
+                                <TableCell sx={{ paddingRight: 0 }} align="right">
+                                    <Typography variant="body2" sx={{ fontWeight: 800, whiteSpace: "nowrap" }}>{ingredient.quantity + " " + ingredient.unit}</Typography>
+                                </TableCell>
+                                <TableCell sx={{ width: "99%" }}>
+                                    <Typography variant="body2">{ingredient.name}</Typography>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

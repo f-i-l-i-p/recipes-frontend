@@ -154,7 +154,7 @@ function Navigation() {
             </Box>
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` } }}
+                sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)`, maxWidth: "100%" } }}
             >
                 <Toolbar />
                 {currentPage}

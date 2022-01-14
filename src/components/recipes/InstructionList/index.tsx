@@ -22,11 +22,13 @@ const InstructionsList = (props: Props) => {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell align="right" sx={{ verticalAlign: "top", paddingRight: 0 }}>
-                                    <Typography variant="subtitle1" component="h3">
-                                        {index + "."}
+                                    <Typography variant="subtitle1" component="h3" sx={{fontWeight: 800}}>
+                                        {(index + 1) + "."}
                                     </Typography>
                                 </TableCell>
-                                <TableCell sx={{ width: "99%" }}>{instruction}</TableCell>
+                                <TableCell sx={{ width: "99%" }}>
+                                    <Typography variant="body2">{instruction}</Typography>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

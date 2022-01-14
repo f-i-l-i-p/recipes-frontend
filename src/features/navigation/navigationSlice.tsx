@@ -36,18 +36,21 @@ export const navigationSlice = createSlice({
   initialState: initialState,
   reducers: {
     pushPage: (state, action: PayloadAction<JSX.Element>) => {
-      console.log("pushed");
-      state.pages = [...state.pages, action.payload];
+      console.log("pushed")
+      state.pages = [...state.pages, action.payload]
+      window.scrollTo(0, 0)
     },
     popPage: (state) => {
       if (state.pages.length > 1) {
         let newValue = [...state.pages]
         newValue.pop()
         state.pages = newValue
+        window.scrollTo(0, 0)
       }
     },
     setBasePage: (state, action: PayloadAction<BasePage>) => {
       state.pages = [createBasePage(action.payload)]
+      window.scrollTo(0, 0)
     }
   },
 })

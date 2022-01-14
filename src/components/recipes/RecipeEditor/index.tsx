@@ -49,6 +49,9 @@ const RecipeEditor = (props: Props) => {
             <Box sx={{ marginTop: "0px !important" }} />
 
             <Paper id="main-form" component="form" onSubmit={onFormSubmit} sx={{ p: "16px" }}>
+                {/* Hidden button to prevent the form from submitting by pressing enter. */}
+                <button type="submit" disabled style={{ display: "none" }}></button>
+
                 <TextField
                     required
                     variant="standard"
@@ -85,11 +88,7 @@ const RecipeEditor = (props: Props) => {
                 <Paper sx={{ overflow: "hidden" }}>
                     <Stack direction="row">
                         <div style={{ width: "40%", aspectRatio: "1 / 1", maxHeight: "40vw", backgroundColor: "#0002", display: "flex", alignItems: "center", justifyContent: "center" }} >
-                            {recipeImageURL ?
-                                <img src={recipeImageURL} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                                :
-                                <PhotoIcon sx={{ minHeight: "20%", minWidth: "20%" }} />
-                            }
+                            <img src={recipeImageURL || process.env.PUBLIC_URL + "/gray.png"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         </div>
                         <div style={{ width: "100%", alignSelf: "center" }}>
                             <label htmlFor="icon-button-file">

@@ -1,4 +1,4 @@
-import { CircularProgress, ListItem, ListItemButton, ListItemText, Paper, Stack } from "@mui/material";
+import { Box, CircularProgress, ListItem, ListItemButton, ListItemText, Paper, Stack } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
@@ -46,6 +46,7 @@ const RecipeListPage = () => {
                     </ListItem>
                 </React.Fragment>
             )}
+            <Box sx={{ marginTop: "32px !important" }} />
         </Stack>
     )
 }

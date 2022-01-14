@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Stack, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { dataURLtoFile } from "../../../helpers/imageHelper";
@@ -60,21 +60,23 @@ const RecipePage = (props: Props) => {
             {isLoading ?
                 <CircularProgress />
                 :
+                recipe &&
                 <React.Fragment>
-                    {recipe &&
-                        <React.Fragment>
-                            {imageURL &&
-                                <img src={imageURL} style={{ width: "100%", aspectRatio: "1 / 1", maxHeight: "100vw" }} />
-                            }
-                            <Typography component="h1" variant="h5">
-                                {recipe.name}
-                            </Typography>
-                            <IngredientList ingredients={recipe.ingredients} />
-                            <InstructionList instructions={recipe.instructions} />
-                            {/* TODO: Only show if recipe created by user */}
-                            <Button variant="text" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
-                        </React.Fragment>
+                    {imageURL &&
+                        <div style={{ width: "calc(100% + 16px", margin: "-8px", marginBottom: 0, overflow: "hidden" }}>
+                            <img src={imageURL} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
+                            <div style={{ backgroundColor: "#fff8eb", height: "32px", marginTop: "-32px", borderRadius: "8px 8px 0 0", boxShadow: "0 -4px 40px 0 #000F" }} />
+                        </div>
                     }
+                    <Typography component="h1" variant="h5">
+                        {recipe.name}
+                    </Typography>
+                    <IngredientList ingredients={recipe.ingredients} />
+                    <InstructionList instructions={recipe.instructions} />
+                    {/* TODO: Only show if recipe created by user */}
+                    <Box sx={{ marginTop: "32px !important" }} />
+                    <Button variant="text" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
+                    <Box sx={{ marginTop: "32px !important" }} />
                 </React.Fragment>
             }
         </Stack>
