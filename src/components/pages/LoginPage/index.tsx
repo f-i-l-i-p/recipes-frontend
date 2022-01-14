@@ -80,7 +80,7 @@ const LoginPage = () => {
 
         setIsCreateLoading(true);
 
-        const name = data.get('username')?.toString()
+        const name = data.get('display-name')?.toString()
         const email = data.get('email')?.toString()
         const password = data.get('password')?.toString()
 
@@ -107,15 +107,15 @@ const LoginPage = () => {
                                 Logga in
                             </Typography>
                             <TextField
-                                id="outlined-required"
+                                id="email"
                                 required
                                 label="Mejladress"
-                                type="text"
+                                type="email"
                                 name="email"
                                 autoComplete="email"
                             />
                             <TextField
-                                id="outlined-required"
+                                id="current-password"
                                 required
                                 label="Lösenord"
                                 type="password"
@@ -131,23 +131,21 @@ const LoginPage = () => {
                                 Skapa konto
                             </Typography>
                             <TextField
-                                id="outlined-required"
                                 required
                                 label="Användarnamn"
-                                type="text"
-                                name="username"
-                                autoComplete="username"
+                                name="display-name"
+                                autoComplete="off"
                             />
                             <TextField
-                                id="outlined-required"
+                                id="email"
                                 required
                                 label="Mejladress"
-                                type="text"
+                                type="email"
                                 name="email"
                                 autoComplete="email"
                             />
                             <TextField
-                                id="outlined-required"
+                                id="new-password"
                                 required
                                 label="Lösenord"
                                 type="password"

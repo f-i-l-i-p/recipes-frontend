@@ -11,15 +11,17 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { logoutRequest } from "../../interface/requests";
 import { BasePage, popPage, setBasePage } from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import React from "react";
 
 const DRAWER_WIDTH = 240;
 
 function Navigation() {
     const pages = useAppSelector((state) => state.navigation.pages)
+    const showNavigation = useAppSelector((state) => state.navigation.showNavigation)
     const dispatch = useAppDispatch()
 
     const [mobileOpen, setMobileOpen] = useState(false);
-    
+
     const handleLogout = () => {
         logoutRequest({
             onSuccess: () => dispatch(setBasePage(BasePage.Login)),
@@ -42,13 +44,13 @@ function Navigation() {
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => {onListClick(); dispatch(setBasePage(BasePage.RecipeList))}}>
+                <ListItem button onClick={() => { onListClick(); dispatch(setBasePage(BasePage.RecipeList)) }}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>
                     <ListItemText primary="Recept" />
                 </ListItem>
-                <ListItem button onClick={() => {onListClick(); dispatch(setBasePage(BasePage.CreateRecipe))}}>
+                <ListItem button onClick={() => { onListClick(); dispatch(setBasePage(BasePage.CreateRecipe)) }}>
                     <ListItemIcon>
                         <AddIcon />
                     </ListItemIcon>
@@ -75,7 +77,7 @@ function Navigation() {
             </List>
             <Divider />
             <List>
-                <ListItem button onClick={() => {onListClick(); handleLogout()}}>
+                <ListItem button onClick={() => { onListClick(); handleLogout() }}>
                     <ListItemIcon>
                         <LogoutIcon />
                     </ListItemIcon>
@@ -88,70 +90,74 @@ function Navigation() {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <AppBar
-                position="fixed"
-                sx={{
-                    width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
-                    ml: { sm: `${DRAWER_WIDTH}px` },
-                }}
-            >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
+            {showNavigation &&
+                <React.Fragment>
+                    <CssBaseline />
+                    <AppBar
+                        position="fixed"
+                        sx={{
+                            width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+                            ml: { sm: `${DRAWER_WIDTH}px` },
+                        }}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    {pages.length > 1 &&
-                        <IconButton
-                            color="inherit"
-                            aria-label="back"
-                            edge="start"
-                            onClick={() => dispatch(popPage())}
-                            sx={{ mr: 2 }}
+                        <Toolbar>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
+                                sx={{ mr: 2, display: { sm: 'none' } }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            {pages.length > 1 &&
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="back"
+                                    edge="start"
+                                    onClick={() => dispatch(popPage())}
+                                    sx={{ mr: 2 }}
+                                >
+                                    <ArrowBackIcon />
+                                </IconButton>
+                            }
+                            <Typography variant="h6" noWrap component="div">
+                                Recept App
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <Box
+                        component="nav"
+                        sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
+                    >
+                        <Drawer
+                            container={window.document.body}
+                            variant="temporary"
+                            open={mobileOpen}
+                            onClose={handleDrawerToggle}
+                            ModalProps={{
+                                keepMounted: true, // Better open performance on mobile.
+                            }}
+                            sx={{
+                                display: { xs: 'block', sm: 'none' },
+                                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH },
+                            }}
                         >
-                            <ArrowBackIcon />
-                        </IconButton>
-                    }
-                    <Typography variant="h6" noWrap component="div">
-                        Recept App
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Box
-                component="nav"
-                sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
-            >
-                <Drawer
-                    container={window.document.body}
-                    variant="temporary"
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
-                    sx={{
-                        display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH },
-                    }}
-                >
-                    {drawer}
-                </Drawer>
-                <Drawer
-                    variant="permanent"
-                    sx={{
-                        display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH },
-                    }}
-                    open
-                >
-                    {drawer}
-                </Drawer>
-            </Box>
+                            {drawer}
+                        </Drawer>
+                        <Drawer
+                            variant="permanent"
+                            sx={{
+                                display: { xs: 'none', sm: 'block' },
+                                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH },
+                            }}
+                            open
+                        >
+                            {drawer}
+                        </Drawer>
+                    </Box>
+                </React.Fragment>
+            }
             <Box
                 component="main"
                 sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)`, maxWidth: "100%" } }}

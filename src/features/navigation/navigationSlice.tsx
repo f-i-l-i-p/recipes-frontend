@@ -25,10 +25,12 @@ function createBasePage(page: BasePage): JSX.Element {
 
 interface NavigationState {
   pages: JSX.Element[],
+  showNavigation: boolean,
 }
 
 const initialState: NavigationState = {
   pages: [createBasePage(BasePage.Login)],
+  showNavigation: false,
 }
 
 export const navigationSlice = createSlice({
@@ -49,6 +51,11 @@ export const navigationSlice = createSlice({
       }
     },
     setBasePage: (state, action: PayloadAction<BasePage>) => {
+      if (action.payload === BasePage.Login)
+        state.showNavigation = false
+      else
+        state.showNavigation = true
+
       state.pages = [createBasePage(action.payload)]
       window.scrollTo(0, 0)
     }
