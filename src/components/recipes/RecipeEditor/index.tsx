@@ -17,19 +17,17 @@ interface Props {
 
 const RecipeEditor = (props: Props) => {
     const [recipeName, setRecipeName] = useState<string>(props.startRecipe?.name || "")
-    const [ingredients, setIngredients] = useState<Ingredient[]>(props.startRecipe?.ingredients || [])
-    const [instructions, setInstructions] = useState<string[]>(props.startRecipe?.instructions || [])
-    const [image, setImage] = useState<{ file: File, url: string }>()
+    const [recipeIngredients, setIngredients] = useState<Ingredient[]>(props.startRecipe?.ingredients || [])
+    const [recipeInstructions, setInstructions] = useState<string[]>(props.startRecipe?.instructions || [])
+    const [recipeImageURL, setImageURL] = useState<string>(props.startRecipe?.image || "")
 
     const onImageUpload = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const target = event.target as HTMLInputElement
         const file: File = (target.files as FileList)[0]
 
-        isImage(file, () => {
-            // If file is an image
-            setImage({
-                file: file,
-                url: URL.createObjectURL(file),
+        isImage(file, () => { // If file is an image
+            encodeImageFileToBase64(file, (callback) => { // Encode
+                setImageURL(callback)
             })
         })
     }
@@ -43,17 +41,7 @@ const RecipeEditor = (props: Props) => {
         if (!name || props.showLoading)
             return
 
-        const handleComplete = (imageBase64: string | undefined) => {
-            props.onComplete(recipeName, ingredients, instructions, imageBase64)
-        }
-
-        if (image) {
-            encodeImageFileToBase64(image?.file, (callback) => {
-                handleComplete(callback)
-            })
-        } else {
-            handleComplete(undefined)
-        }
+        props.onComplete(recipeName, recipeIngredients, recipeInstructions, recipeImageURL)
     }
 
     return (
@@ -82,13 +70,13 @@ const RecipeEditor = (props: Props) => {
                 <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
                     Ingredienser
                 </Typography>
-                <EditIngredientList ingredients={ingredients} setIngredients={setIngredients} />
+                <EditIngredientList ingredients={recipeIngredients} setIngredients={setIngredients} />
             </div>
             <div>
                 <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
                     Instruktioner
                 </Typography>
-                <EditInstructionList instructions={instructions} setInstructions={setInstructions} />
+                <EditInstructionList instructions={recipeInstructions} setInstructions={setInstructions} />
             </div>
             <div>
                 <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
@@ -97,8 +85,8 @@ const RecipeEditor = (props: Props) => {
                 <Paper sx={{ overflow: "hidden" }}>
                     <Stack direction="row">
                         <div style={{ width: "40%", aspectRatio: "1 / 1", maxHeight: "40vw", backgroundColor: "#0002", display: "flex", alignItems: "center", justifyContent: "center" }} >
-                            {image ?
-                                <img src={image.url} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                            {recipeImageURL ?
+                                <img src={recipeImageURL} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                                 :
                                 <PhotoIcon sx={{ minHeight: "20%", minWidth: "20%" }} />
                             }
