@@ -102,10 +102,11 @@ const RecipePage = (props: Props) => {
                             <div style={{ backgroundColor: "#fff8eb", height: "32px", marginTop: "-32px", borderRadius: "8px 8px 0 0", boxShadow: "0 -4px 40px 0 #000F" }} />
                         </div>
                     }
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" sx={{m: "-10px 0 10px 0 !important"}}>
                         {recipe.name}
                     </Typography>
                     <IngredientList ingredients={recipe.ingredients} />
+                    <Box sx={{ marginTop: "32px !important" }} />
                     <InstructionList instructions={recipe.instructions} />
                     <Box sx={{ marginTop: "32px !important" }} />
                     {/* TODO: Only show if recipe created by user */}
