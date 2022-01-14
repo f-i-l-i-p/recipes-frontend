@@ -1,15 +1,17 @@
-import { Box, Button, CircularProgress, Stack, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Dialog, DialogTitle, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { dataURLtoFile } from "../../../helpers/imageHelper";
-import { recipeRequest } from "../../../interface/requests";
+import { deleteRecipeRequest, recipeRequest } from "../../../interface/requests";
 import { Recipe } from "../../../types/ingredient";
 import IngredientList from "../../recipes/IngredientList";
 import InstructionList from "../../recipes/InstructionList";
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditRecipePage from "../EditRecipePage";
 import { useAppDispatch } from "../../../app/hooks";
 import { popPage, pushPage } from "../../../features/navigation/navigationSlice";
+import { DialogActions, DialogContent, DialogContentText } from "@material-ui/core";
 
 interface Props {
     id: number,
@@ -21,29 +23,40 @@ interface Props {
  */
 const RecipePage = (props: Props) => {
     const dispatch = useAppDispatch()
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [recipeLoading, setRecipeLoading] = useState<boolean>(true)
     const [recipe, setRecipe] = useState<Recipe>()
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+    const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
 
     const request = () => {
         recipeRequest(props.id, {
             onSuccess: (json: any) => {
-                setIsLoading(false)
+                setRecipeLoading(false)
                 setRecipe(json)
             },
             onError: (json: any) => {
-                setIsLoading(false)
+                setRecipeLoading(false)
             },
         })
     }
 
-    const onEditDone = () => {
-        dispatch(popPage())
-    }
-
     const editRecipe = () => {
         if (recipe) {
-            dispatch(pushPage(<EditRecipePage onComplete={() => onEditDone()} recipe={recipe} />))
+            dispatch(pushPage(<EditRecipePage onComplete={() => dispatch(popPage())} recipe={recipe} />))
         }
+    }
+
+    const deleteRecipe = () => {
+        setDeleteLoading(true)
+        deleteRecipeRequest(props.id, {
+            onSuccess: () => {
+                dispatch(popPage())
+            },
+            onError: () => {
+                alert("Delete recipe error")
+                setDeleteLoading(false)
+            }
+        })
     }
 
     React.useEffect(() => {
@@ -55,9 +68,30 @@ const RecipePage = (props: Props) => {
         imageURL = URL.createObjectURL(dataURLtoFile(recipe.image))
     }
 
+    const deleteDialog = (
+        <Dialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)}>
+            <DialogTitle>
+                Radera
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Vill du radera "{recipe?.name}"?
+                </DialogContentText>
+                <DialogContentText>
+                    Det kommer även att försvinna för andra användre.
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setShowDeleteDialog(false)}>Avbryt</Button>
+                <Button autoFocus color="error" onClick={deleteRecipe}>Radera</Button>
+            </DialogActions>
+        </Dialog>
+    )
+
     return (
         <Stack spacing={2}>
-            {isLoading ?
+            {deleteDialog}
+            {recipeLoading ?
                 <CircularProgress />
                 :
                 recipe &&
@@ -73,9 +107,12 @@ const RecipePage = (props: Props) => {
                     </Typography>
                     <IngredientList ingredients={recipe.ingredients} />
                     <InstructionList instructions={recipe.instructions} />
-                    {/* TODO: Only show if recipe created by user */}
                     <Box sx={{ marginTop: "32px !important" }} />
-                    <Button variant="text" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
+                    {/* TODO: Only show if recipe created by user */}
+                    <Stack direction="row" justifyContent="space-between">
+                        <Button variant="text" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
+                        <Button disabled={deleteLoading} variant="text" color="error" startIcon={<DeleteIcon />} onClick={() => setShowDeleteDialog(true)}>Radera</Button>
+                    </Stack>
                     <Box sx={{ marginTop: "32px !important" }} />
                 </React.Fragment>
             }

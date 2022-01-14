@@ -32,11 +32,17 @@ async function request(route: string, body: any, includeToken: boolean, listener
         headers.append('Authorization', "Bearer " + getToken())
     }
 
-    const response = await fetch(URL + route, {
-        method: "post",
-        headers: headers,
-        body: JSON.stringify(body)
-    })
+    let response: Response;
+    try {
+        response = await fetch(URL + route, {
+            method: "post",
+            headers: headers,
+            body: JSON.stringify(body)
+        })
+    } catch (e) {
+        listener.onError(e)
+        return;
+    }
 
     const contentType = response.headers.get("content-type");
 
@@ -129,6 +135,17 @@ export async function changeRecipeRequest(recipeId: number, name: string, ingred
             ingredients: ingredients,
             instructions: instructions,
             image: imageBase64,
+        },
+        true,
+        listener,
+    )
+}
+
+export async function deleteRecipeRequest(recipeId: number, listener: RequestListener): Promise<void> {
+    request(
+        "recipes/delete",
+        {
+            id: recipeId,
         },
         true,
         listener,
