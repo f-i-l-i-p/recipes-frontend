@@ -41,7 +41,9 @@ const RecipePage = (props: Props) => {
     }
 
     const editRecipe = () => {
-        dispatch(pushPage(<EditRecipePage onComplete={() => onEditDone()} recipe={recipe} />))
+        if (recipe) {
+            dispatch(pushPage(<EditRecipePage onComplete={() => onEditDone()} recipe={recipe} />))
+        }
     }
 
     React.useEffect(() => {
