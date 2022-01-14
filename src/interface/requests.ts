@@ -120,6 +120,21 @@ export async function uploadRecipeRequest(name: string, ingredients: Ingredient[
     )
 }
 
+export async function changeRecipeRequest(recipeId: number, name: string, ingredients: Ingredient[], instructions: string[], imageBase64: string | null, listener: RequestListener): Promise<void> {
+    request(
+        "recipes/change",
+        {
+            id: recipeId,
+            name: name,
+            ingredients: ingredients,
+            instructions: instructions,
+            image: imageBase64,
+        },
+        true,
+        listener,
+    )
+}
+
 export async function latestRecipesRequest(searchTerm: string | null, listener: RequestListener): Promise<void> {
     let body;
     if (searchTerm) {

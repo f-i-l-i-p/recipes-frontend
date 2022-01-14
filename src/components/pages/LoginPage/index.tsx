@@ -2,27 +2,31 @@ import { CircularProgress } from '@material-ui/core';
 import { Stack, Paper, Typography, TextField, Button } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
+import { useAppDispatch } from '../../../app/hooks';
+import { BasePage, setBasePage } from '../../../features/navigation/navigationSlice';
 import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../interface/requests';
 import "./style.css";
-
-export interface LoginPageProps {
-    onLogin: () => void,
-}
 
 // TODO: Warn user if error
 /**
  * Page that displays a login form and a create account form.
  * onLogin is called with a token when the user logged in.
  */
-const LoginPage = (props: LoginPageProps) => {
+const LoginPage = () => {
+    const dispatch = useAppDispatch()
+    
     const [isStartupLoading, setStartupLoading] = useState(true);
     const [isLoginLoading, setIsLoginLoading] = useState(false);
     const [isCreateLoading, setIsCreateLoading] = useState(false);
 
+    const onLogin = () => {
+        dispatch(setBasePage(BasePage.RecipeList))
+    }
+
     // Automatically login if valid token
     const checkToken = () => {
         checkTokenRequest({
-            onSuccess: (json) => { props.onLogin(); setStartupLoading(false) },
+            onSuccess: (json) => { onLogin(); },
             onError: (json) => { setStartupLoading(false) },
         })
     }
@@ -33,7 +37,7 @@ const LoginPage = (props: LoginPageProps) => {
             onSuccess: (json) => {
                 setIsLoginLoading(false);
                 setIsCreateLoading(false);
-                props.onLogin();
+                onLogin();
             },
             onError: (json) => {
                 setIsLoginLoading(false);

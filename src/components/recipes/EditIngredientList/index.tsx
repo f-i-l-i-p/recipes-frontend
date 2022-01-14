@@ -49,18 +49,17 @@ const EditIngredientList = (props: Props) => {
         <Box component={Paper} sx={{paddingBottom: "16px"}}>
             <List>
                 {props.ingredients.map((ingredient, index) =>
-                    <React.Fragment>
+                    <React.Fragment key={index}>
                         <ListItem
-                            key={index}
                             secondaryAction={
                                 <IconButton edge="end" aria-label="delete" onClick={() => removeIngredient(index)}>
                                     <RemoveIcon />
                                 </IconButton>
                             }
+                            sx = {{whiteSpace: "nowrap"}}
                         >
-                            <Typography sx={{ width: "5em" }}>{ingredient.quantity}</Typography>
-                            <Typography sx={{ width: "5em" }}>{ingredient.unit}</Typography>
-                            <Typography sx={{ width: "4em" }}>{ingredient.name}</Typography>
+                            <Typography variant="body2" align="left" sx={{ fontWeight: 800, marginRight: "8px" }}>{(ingredient.quantity || "") + " " + ingredient.unit}</Typography>
+                            <Typography variant="body2" sx={{overflow: "hidden", textOverflow: "ellipsis"}}>{ingredient.name}</Typography>
                         </ListItem>
                         <Divider />
                     </React.Fragment>
@@ -75,6 +74,9 @@ const EditIngredientList = (props: Props) => {
                         label="Mängd"
                         type="number"
                         name="quantity"
+                        inputProps={{
+                            step: "any"
+                        }}
                         InputLabelProps={{
                             shrink: true,
                         }}

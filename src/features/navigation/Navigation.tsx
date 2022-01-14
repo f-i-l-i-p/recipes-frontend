@@ -1,53 +1,33 @@
 import { Toolbar, Divider, List, ListItem, ListItemText, Box, CssBaseline, AppBar, IconButton, Typography, Drawer, ListItemIcon } from "@mui/material";
 import { useState } from "react";
-import CreateRecipePage from "../../pages/CreateRecipePage";
-import LoginPage from "../../pages/LoginPage";
-import RecipeListPage from "../../pages/RecipeListPage";
-import MenuIcon from '@mui/icons-material/Menu';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddIcon from '@mui/icons-material/Add';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { logoutRequest } from "../../../interface/requests";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import MenuIcon from '@mui/icons-material/Menu';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { logoutRequest } from "../../interface/requests";
+import { BasePage, popPage, setBasePage } from "./navigationSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 const DRAWER_WIDTH = 240;
 
-function PageDrawer() {
+function Navigation() {
+    const pages = useAppSelector((state) => state.navigation.pages)
+    const dispatch = useAppDispatch()
 
-    const onLogin = () => {
-        setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
-    }
-    const logout = () => {
+    const [mobileOpen, setMobileOpen] = useState(false);
+    
+    const handleLogout = () => {
         logoutRequest({
-            onSuccess: () => setBasePage(<LoginPage onLogin={onLogin} />),
+            onSuccess: () => dispatch(setBasePage(BasePage.Login)),
             onError: () => { alert("Error") },
         })
     }
-    const onCreateRecipe = () => {
-        setBasePage(<RecipeListPage openPage={pushHistoryPage} />)
-    }
 
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [history, setHistory] = useState<JSX.Element[]>([<LoginPage onLogin={onLogin} />]);
-
-    const popHistoryPage = () => {
-        if (history.length > 1) {
-            const newHistory = [...history]
-            newHistory.pop()
-            setHistory([...newHistory])
-        }
-    }
-
-    const pushHistoryPage = (page: JSX.Element) => {
-        setHistory([...history, page])
-    }
-
-    const setBasePage = (page: JSX.Element) => {
-        history.length = 0
-        history.push(page)
-        setHistory([...history])
+    const onListClick = () => {
         setMobileOpen(false);
     }
 
@@ -55,24 +35,30 @@ function PageDrawer() {
         setMobileOpen(!mobileOpen);
     };
 
-    const currentPage = history[history.length - 1]
+    const currentPage = pages[pages.length - 1]
 
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => setBasePage(<RecipeListPage openPage={pushHistoryPage} />)}>
+                <ListItem button onClick={() => {onListClick(); dispatch(setBasePage(BasePage.RecipeList))}}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>
                     <ListItemText primary="Recept" />
                 </ListItem>
-                <ListItem button onClick={() => setBasePage(<CreateRecipePage onCreateRecipe={onCreateRecipe} />)}>
+                <ListItem button onClick={() => {onListClick(); dispatch(setBasePage(BasePage.CreateRecipe))}}>
                     <ListItemIcon>
                         <AddIcon />
                     </ListItemIcon>
                     <ListItemText primary="Nytt Recept" />
+                </ListItem>
+                <ListItem disabled button>
+                    <ListItemIcon>
+                        <FavoriteIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Sparade Recept" />
                 </ListItem>
                 <ListItem disabled button>
                     <ListItemIcon>
@@ -89,7 +75,7 @@ function PageDrawer() {
             </List>
             <Divider />
             <List>
-                <ListItem button onClick={() => logout()}>
+                <ListItem button onClick={() => {onListClick(); handleLogout()}}>
                     <ListItemIcon>
                         <LogoutIcon />
                     </ListItemIcon>
@@ -120,12 +106,12 @@ function PageDrawer() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    {history.length > 1 &&
+                    {pages.length > 1 &&
                         <IconButton
                             color="inherit"
                             aria-label="back"
                             edge="start"
-                            onClick={popHistoryPage}
+                            onClick={() => dispatch(popPage())}
                             sx={{ mr: 2 }}
                         >
                             <ArrowBackIcon />
@@ -168,7 +154,7 @@ function PageDrawer() {
             </Box>
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` } }}
+                sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)`, maxWidth: "100%" } }}
             >
                 <Toolbar />
                 {currentPage}
@@ -177,4 +163,4 @@ function PageDrawer() {
     );
 }
 
-export default PageDrawer
+export default Navigation

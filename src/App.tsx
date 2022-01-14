@@ -1,7 +1,7 @@
 import { createTheme, ThemeProvider } from '@material-ui/core';
 import { Shadows } from '@mui/material/styles/shadows';
 import './App.css';
-import PageDrawer from './components/navigation/PageDrawer';
+import Navigation from './features/navigation/Navigation';
 
 
 const theme = createTheme({
@@ -24,7 +24,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <PageDrawer />
+        <Navigation />
       </div>
     </ThemeProvider>
   );
