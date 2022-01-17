@@ -1,0 +1,19 @@
+.carrot-icon {
+    height: 10ch;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .carrot-icon {
+        animation: carrot-spin infinite 4s linear;
+    }
+}
+
+@keyframes carrot-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

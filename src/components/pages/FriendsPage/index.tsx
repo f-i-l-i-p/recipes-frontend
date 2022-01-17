@@ -1,7 +1,9 @@
-import { CircularProgress, Stack } from "@mui/material";
+import { AppBar, Button, CircularProgress, Dialog, DialogActions, DialogContent, Divider, Fab, IconButton, List, ListItem, ListItemText, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { latestRecipesRequest } from "../../../interface/requests";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface Friends {
     incomingRequests: any[],
@@ -11,6 +13,7 @@ interface Friends {
 
 const FriendsPage = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [showSearch, setShowSearch] = useState<boolean>(true)
     const [friends, setFriends] = useState<Friends>({
         incomingRequests: [], outgoingRequests: [], currentFriends: []
     })
@@ -19,7 +22,6 @@ const FriendsPage = () => {
         latestRecipesRequest(null, {
             onSuccess: (json: any) => {
                 setIsLoading(false)
-                // TODO: setFriends
             },
             onError: (json: any) => {
                 setIsLoading(false)
@@ -31,8 +33,38 @@ const FriendsPage = () => {
         request();
     }, []);
 
+    const searchDialog = (
+        <Dialog
+            open={showSearch}
+            onClose={() => setShowSearch(false)}
+        >
+            <DialogContent sx={{p: "8px"}}>
+                <TextField id="outlined-search" label="Search field" type="search" />
+                <List>
+                    <ListItem secondaryAction={
+                        <IconButton>
+                            <GroupAddIcon />
+                        </IconButton>
+                    }>
+                        <ListItemText primary="Username"/>
+                    </ListItem>
+                    <Divider />
+                </List>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setShowSearch(false)} autoFocus>
+                    Klar
+                </Button>
+            </DialogActions>
+        </Dialog>
+    )
+
     return (
         <Stack>
+            {searchDialog}
+            <Fab color="primary" aria-label="add" onClick={() => setShowSearch(true)}>
+                <GroupAddIcon />
+            </Fab>
             {isLoading &&
                 <CircularProgress />
             }

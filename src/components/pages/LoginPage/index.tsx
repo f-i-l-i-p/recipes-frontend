@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
 import { BasePage, setBasePage } from '../../../features/navigation/navigationSlice';
 import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../interface/requests';
+import CarrotLoading from '../../CarrotLoading';
 
 // TODO: Warn user if error
 /**
@@ -13,7 +14,7 @@ import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../
  */
 const LoginPage = () => {
     const dispatch = useAppDispatch()
-    
+
     const [isStartupLoading, setStartupLoading] = useState(true);
     const [isLoginLoading, setIsLoginLoading] = useState(false);
     const [isCreateLoading, setIsCreateLoading] = useState(false);
@@ -97,10 +98,10 @@ const LoginPage = () => {
     return (
         <div id="login-page">
             {isStartupLoading ?
-                <CircularProgress sx={{position: "absolute", top: "50%" }}/>
+                <CarrotLoading style={{position: "fixed", margin: "auto", left: 0, right: 0, bottom: 0, top: 0}} />
                 :
-                <Stack spacing={3} sx={{maxWidth: "400px", alignSelf: "center", margin: "auto"}}>
-                    <Paper sx={{p: "16px"}}>
+                <Stack spacing={3} sx={{ maxWidth: "400px", alignSelf: "center", margin: "auto" }}>
+                    <Paper sx={{ p: "16px" }}>
                         <Stack spacing={1} component="form" onSubmit={handleLoginSubmit}>
                             <Typography component="h1" variant="h5">
                                 Logga in
@@ -124,7 +125,7 @@ const LoginPage = () => {
                             <Button disabled={isLoginLoading} variant="contained" type="submit">Logga in</Button>
                         </Stack>
                     </Paper>
-                    <Paper sx={{p: "16px"}}>
+                    <Paper sx={{ p: "16px" }}>
                         <Stack spacing={1} component="form" onSubmit={handleCreateSubmit}>
                             <Typography component="h1" variant="h5">
                                 Skapa konto

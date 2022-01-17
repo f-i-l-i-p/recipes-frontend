@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import React from 'react';
 import CreateRecipePage from '../../components/pages/CreateRecipePage';
+import FriendsPage from '../../components/pages/FriendsPage';
 import LoginPage from '../../components/pages/LoginPage';
 import RecipeListPage from '../../components/pages/RecipeListPage';
 
@@ -8,6 +9,7 @@ export enum BasePage {
   Login,
   RecipeList,
   CreateRecipe,
+  Friends,
 }
 
 function createBasePage(page: BasePage): JSX.Element {
@@ -18,6 +20,8 @@ function createBasePage(page: BasePage): JSX.Element {
       return <RecipeListPage />
     case BasePage.CreateRecipe:
       return <CreateRecipePage />
+    case BasePage.Friends:
+      return <FriendsPage />
     default:
       return <React.Fragment />
   }
