@@ -4,19 +4,13 @@ import { useState } from "react";
 import { latestRecipesRequest } from "../../../interface/requests";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import CloseIcon from '@mui/icons-material/Close';
-import FriendsList from "../../../features/friends/FriendList";
+import { Friends } from "../../../features/friends/types";
 
-interface Friends {
-    incomingRequests: any[],
-    outgoingRequests: any[],
-    currentFriends: any[],
-}
-
-const FriendsPage = () => {
+const AddFriends = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [showSearch, setShowSearch] = useState<boolean>(true)
     const [friends, setFriends] = useState<Friends>({
-        incomingRequests: [], outgoingRequests: [], currentFriends: []
+        currentFriends: [], incomingRequests: [], outgoingRequests: []
     })
 
     const request = () => {
@@ -39,7 +33,7 @@ const FriendsPage = () => {
             open={showSearch}
             onClose={() => setShowSearch(false)}
         >
-            <DialogContent sx={{p: "8px"}}>
+            <DialogContent sx={{ p: "8px" }}>
                 <TextField id="outlined-search" label="Search field" type="search" />
                 <List>
                     <ListItem secondaryAction={
@@ -47,7 +41,7 @@ const FriendsPage = () => {
                             <GroupAddIcon />
                         </IconButton>
                     }>
-                        <ListItemText primary="Username"/>
+                        <ListItemText primary="Username" />
                     </ListItem>
                     <Divider />
                 </List>
@@ -69,9 +63,8 @@ const FriendsPage = () => {
             {isLoading &&
                 <CircularProgress />
             }
-            <FriendsList />
         </Stack>
     )
 }
 
-export default FriendsPage
+export default AddFriends

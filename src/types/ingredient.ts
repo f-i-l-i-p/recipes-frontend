@@ -21,3 +21,8 @@ export interface Recipe {
     likes: number,
     image: string,
 }
+
+export interface User {
+    name: string,
+    id: number,
+}
