@@ -178,3 +178,67 @@ export async function recipeRequest(id: number, listener: RequestListener): Prom
         listener
     )
 }
+
+export async function searchUsersRequest(searchTerm: string, listener: RequestListener): Promise<void> {
+    request(
+        "users/search",
+        {
+            search_term: searchTerm,
+        },
+        true,
+        listener
+    )
+}
+
+export async function listFriendsRequest(listener: RequestListener): Promise<void> {
+    request(
+        "friends/list-friends",
+        {},
+        true,
+        listener
+    )
+}
+
+export async function createFriendRequest(friend_id: number, listener: RequestListener): Promise<void> {
+    request(
+        "friends/create-friend-request",
+        {
+            id: friend_id,
+        },
+        true,
+        listener
+    )
+}
+
+export async function cancelFriendRequest(friend_id: number, listener: RequestListener): Promise<void> {
+    request(
+        "friends/cancel-friend-request",
+        {
+            id: friend_id,
+        },
+        true,
+        listener
+    )
+}
+
+export async function acceptFriendRequest(friend_id: number, listener: RequestListener): Promise<void> {
+    request(
+        "friends/accept-friend-request",
+        {
+            id: friend_id,
+        },
+        true,
+        listener
+    )
+}
+
+export async function removeFriendRequest(friend_id: number, listener: RequestListener): Promise<void> {
+    request(
+        "friends/remove-friend-request",
+        {
+            id: friend_id,
+        },
+        true,
+        listener
+    )
+}

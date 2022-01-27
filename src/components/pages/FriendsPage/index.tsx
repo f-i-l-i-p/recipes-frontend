@@ -5,6 +5,7 @@ import { latestRecipesRequest } from "../../../interface/requests";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import FriendsList from "../../../features/friends/FriendList";
+import UserSearchDialog from "../../../features/friends/UserSearch";
 
 interface Friends {
     incomingRequests: any[],
@@ -13,62 +14,17 @@ interface Friends {
 }
 
 const FriendsPage = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [showSearch, setShowSearch] = useState<boolean>(true)
     const [friends, setFriends] = useState<Friends>({
         incomingRequests: [], outgoingRequests: [], currentFriends: []
     })
 
-    const request = () => {
-        latestRecipesRequest(null, {
-            onSuccess: (json: any) => {
-                setIsLoading(false)
-            },
-            onError: (json: any) => {
-                setIsLoading(false)
-            },
-        })
-    }
-
-    React.useEffect(() => {
-        request();
-    }, []);
-
-    const searchDialog = (
-        <Dialog
-            open={showSearch}
-            onClose={() => setShowSearch(false)}
-        >
-            <DialogContent sx={{p: "8px"}}>
-                <TextField id="outlined-search" label="Search field" type="search" />
-                <List>
-                    <ListItem secondaryAction={
-                        <IconButton>
-                            <GroupAddIcon />
-                        </IconButton>
-                    }>
-                        <ListItemText primary="Username"/>
-                    </ListItem>
-                    <Divider />
-                </List>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={() => setShowSearch(false)} autoFocus>
-                    Klar
-                </Button>
-            </DialogActions>
-        </Dialog>
-    )
-
     return (
         <Stack>
-            {searchDialog}
+            <UserSearchDialog show={showSearch} close={() => setShowSearch(false)} />
             <Fab color="primary" aria-label="add" onClick={() => setShowSearch(true)}>
                 <GroupAddIcon />
             </Fab>
-            {isLoading &&
-                <CircularProgress />
-            }
             <FriendsList />
         </Stack>
     )
