@@ -22,7 +22,7 @@ const FriendsPage = () => {
     return (
         <Stack>
             <UserSearchDialog show={showSearch} close={() => setShowSearch(false)} />
-            <Fab color="primary" aria-label="add" onClick={() => setShowSearch(true)}>
+            <Fab color="primary" aria-label="add" onClick={() => setShowSearch(true)} sx={{alignSelf: "end"}}>
                 <GroupAddIcon />
             </Fab>
             <FriendsList />
