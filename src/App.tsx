@@ -3,7 +3,6 @@ import { Shadows } from '@mui/material/styles/shadows';
 import './App.css';
 import Navigation from './features/navigation/Navigation';
 
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -12,6 +11,9 @@ const theme = createTheme({
     secondary: {
       main: "#6b9b37",
     },
+    info: {
+      main: "#00000080",
+    }
   },
   shape: {
     borderRadius: 10

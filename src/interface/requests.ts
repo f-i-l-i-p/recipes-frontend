@@ -6,8 +6,8 @@ const URL = "https://recipes-backend-heroku.herokuapp.com/";
 let token = "";
 
 interface RequestListener {
-    onSuccess: (json: any) => void,
-    onError: (json: any) => void,
+    onSuccess?: (json: any) => void,
+    onError?: (json: any) => void,
 }
 
 function setToken(t: string): void {
@@ -40,7 +40,9 @@ async function request(route: string, body: any, includeToken: boolean, listener
             body: JSON.stringify(body)
         })
     } catch (e) {
-        listener.onError(e)
+        if (listener.onError) {
+            listener.onError(e)
+        }
         return;
     }
 
@@ -54,9 +56,13 @@ async function request(route: string, body: any, includeToken: boolean, listener
     }
 
     if (response.ok) {
-        listener.onSuccess(json)
+        if (listener.onSuccess) {
+            listener.onSuccess(json)
+        }
     } else {
-        listener.onError(json)
+        if (listener.onError) {
+            listener.onError(json)
+        }
     }
 }
 
@@ -87,7 +93,9 @@ export async function loginRequest(email: string, password: string, listener: Re
     const loginListener = {
         onSuccess: (json: any) => {
             setToken(json.token);
-            listener.onSuccess(json);
+            if (listener.onSuccess) {
+                listener.onSuccess(json);
+            }
         },
         onError: listener.onError,
     }
@@ -234,7 +242,7 @@ export async function acceptFriendRequest(friend_id: number, listener: RequestLi
 
 export async function removeFriendRequest(friend_id: number, listener: RequestListener): Promise<void> {
     request(
-        "friends/remove-friend-request",
+        "friends/remove-friend",
         {
             id: friend_id,
         },

@@ -2,9 +2,11 @@
 import { Button, Dialog, DialogActions, DialogContent, Divider, IconButton, List, ListItem, ListItemText, Snackbar, TextField } from "@mui/material";
 import { useState } from "react";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { searchUsersRequest } from "../../interface/requests";
+import { createFriendRequest, searchUsersRequest } from "../../interface/requests";
 import React from "react";
 import { User } from "../../types/ingredient";
+import { useAppDispatch } from "../../app/hooks";
+import { fetchFriends } from "./friendsSlice";
 
 interface Props {
     show: boolean,
@@ -12,6 +14,8 @@ interface Props {
 }
 
 const UserSearchDialog = (props: Props) => {
+    const dispatch = useAppDispatch()
+
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [users, setUsers] = useState<User[]>([])
     const [showSnackbar, setShowSnackbar] = useState<boolean>(false)
@@ -41,15 +45,21 @@ const UserSearchDialog = (props: Props) => {
     }
 
     /**
-     * Sends a friend request
+     * Sends a friend request and closes the dialog.
      */
     const sendFriendRequest = (id: number): void => {
-        setShowSnackbar(true)
-        // TODO: Send request
+        createFriendRequest(id, {
+            onSuccess: () => {
+                setShowSnackbar(true)
+                dispatch(fetchFriends())
+            },
+            onError: () => alert("Error sending friend request")
+        })
+        close()
     }
 
     /**
-     * Closes the dialog
+     * Closes the dialog.
      */
     const close = (): void => {
         props.close()
@@ -77,8 +87,8 @@ const UserSearchDialog = (props: Props) => {
                     </List>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => close()} autoFocus>
-                        Klar
+                    <Button color="secondary" onClick={() => close()} autoFocus>
+                        Stäng
                     </Button>
                 </DialogActions>
             </Dialog>
