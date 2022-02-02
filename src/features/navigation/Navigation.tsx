@@ -8,17 +8,20 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { logoutRequest } from "../../interface/requests";
 import { BasePage, popPage, setBasePage } from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import React from "react";
+import { Friends } from "../friends/types";
 
 const DRAWER_WIDTH = 240;
 
 function Navigation() {
+    const dispatch = useAppDispatch()
     const pages = useAppSelector((state) => state.navigation.pages)
     const showNavigation = useAppSelector((state) => state.navigation.showNavigation)
-    const dispatch = useAppDispatch()
+    const friends: Friends = useAppSelector((state) => state.friends.friends)
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -67,6 +70,11 @@ function Navigation() {
                         <PeopleIcon />
                     </ListItemIcon>
                     <ListItemText primary="Vänner" />
+                    {friends.incomingRequests.length > 0 && // Show a notification icon if there are incoming friend requests
+                        <ListItemIcon>
+                            <NotificationsActiveIcon color="error" />
+                        </ListItemIcon>
+                    }
                 </ListItem>
                 <ListItem disabled button>
                     <ListItemIcon>
