@@ -63,7 +63,7 @@ function Navigation() {
                     <ListItemIcon>
                         <FavoriteIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Sparade Recept" />
+                    <ListItemText primary="Gillade Recept" />
                 </ListItem>
                 <ListItem button onClick={() => { onListClick(); dispatch(setBasePage(BasePage.Friends)) }}>
                     <ListItemIcon>
