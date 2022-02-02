@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../../app/hooks';
 import { BasePage, setBasePage } from '../../../features/navigation/navigationSlice';
 import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../interface/requests';
 import CarrotLoading from '../../CarrotLoading';
+import { fetchFriends } from "../../../features/friends/friendsSlice";
 
 // TODO: Warn user if error
 /**
@@ -19,6 +20,7 @@ const LoginPage = () => {
     const [isCreateLoading, setIsCreateLoading] = useState(false);
 
     const onLogin = () => {
+        dispatch(fetchFriends())
         dispatch(setBasePage(BasePage.RecipeList))
     }
 
