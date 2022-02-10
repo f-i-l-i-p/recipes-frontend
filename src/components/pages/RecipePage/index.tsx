@@ -63,11 +63,6 @@ const RecipePage = (props: Props) => {
         request();
     }, []);
 
-    let imageURL: string | null = null
-    if (recipe && recipe.image) {
-        imageURL = URL.createObjectURL(dataURLtoFile(recipe.image))
-    }
-
     const deleteDialog = (
         <Dialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)}>
             <DialogTitle>
@@ -96,9 +91,9 @@ const RecipePage = (props: Props) => {
                 :
                 recipe &&
                 <React.Fragment>
-                    {imageURL &&
+                    {recipe.image_url &&
                         <div style={{ width: "calc(100% + 16px", margin: "-8px", marginBottom: 0, overflow: "hidden" }}>
-                            <img src={imageURL} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
+                            <img src={recipe.image_url} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
                             <div style={{ backgroundColor: "#fff8eb", height: "32px", marginTop: "-32px", borderRadius: "8px 8px 0 0", boxShadow: "0 -4px 40px 0 #000F" }} />
                         </div>
                     }

@@ -19,7 +19,7 @@ const RecipeEditor = (props: Props) => {
     const [recipeName, setRecipeName] = useState<string>(props.startRecipe?.name || "")
     const [recipeIngredients, setIngredients] = useState<Ingredient[]>(props.startRecipe?.ingredients || [])
     const [recipeInstructions, setInstructions] = useState<string[]>(props.startRecipe?.instructions || [])
-    const [recipeImageURL, setImageURL] = useState<string>(props.startRecipe?.image || "")
+    const [recipeImageURL, setImageURL] = useState<string>(props.startRecipe?.image_url || "")
 
     const onImageUpload = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const target = event.target as HTMLInputElement

@@ -19,7 +19,7 @@ export interface Recipe {
     user: string,
     comments: any[],
     likes: number,
-    image: string,
+    image_url: string,
 }
 
 export interface User {
