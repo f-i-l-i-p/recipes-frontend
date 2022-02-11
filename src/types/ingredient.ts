@@ -9,6 +9,7 @@ export interface RecipeListItem {
     id: number,
     name: string,
     user: string,
+    img_url: string,
 }
 
 export interface Recipe {
@@ -19,7 +20,7 @@ export interface Recipe {
     user: string,
     comments: any[],
     likes: number,
-    image_url: string,
+    img_url: string,
 }
 
 export interface User {

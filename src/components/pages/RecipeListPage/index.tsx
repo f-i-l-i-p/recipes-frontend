@@ -6,6 +6,7 @@ import { pushPage } from "../../../features/navigation/navigationSlice";
 import { latestRecipesRequest } from "../../../interface/requests";
 import { RecipeListItem } from "../../../types/ingredient";
 import RecipePage from "../RecipePage";
+import RecipeListItemComponent from "./RecipeListItemComponent";
 
 const RecipeListPage = () => {
     const dispatch = useAppDispatch()
@@ -37,13 +38,11 @@ const RecipeListPage = () => {
             {isLoading &&
                 <CircularProgress />
             }
+            <Box sx={{ marginTop: "16px !important" }} />
             {recipes.map((recipe, index) =>
                 <React.Fragment key={index}>
-                    <ListItem component={Paper} style={{ marginBottom: "8px" }} disablePadding>
-                        <ListItemButton onClick={() => openRecipe(recipe)}>
-                            <ListItemText primary={recipe.name} secondary={recipe.user} />
-                        </ListItemButton>
-                    </ListItem>
+                    <RecipeListItemComponent item={recipe} onClick={() => openRecipe(recipe)} />
+                    <Box sx={{ marginTop: "16px !important" }} />
                 </React.Fragment>
             )}
             <Box sx={{ marginTop: "32px !important" }} />
