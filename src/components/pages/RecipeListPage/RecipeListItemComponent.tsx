@@ -11,7 +11,7 @@ interface Props {
 }
 
 const RecipeListItemComponent = (props: Props) => {
-    const img = props.item.img_url || "/gray.png"
+    const img = props.item.img_url || process.env.PUBLIC_URL + "/gray.png"
 
     return (
         <ListItem component={Paper} sx={{ overflow: "hidden" }} disablePadding>
