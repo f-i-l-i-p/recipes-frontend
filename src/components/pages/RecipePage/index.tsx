@@ -58,6 +58,10 @@ const RecipePage = (props: Props) => {
         request();
     }, []);
 
+    // Use data from newly loaded recipe in possible, otherwise use data from props.
+    const image_url = recipe?.img_url || props.recipe.img_url
+    const name = recipe?.name || props.recipe.name
+
     const deleteDialog = (
         <Dialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)}>
             <DialogTitle>
@@ -82,16 +86,16 @@ const RecipePage = (props: Props) => {
         <Stack spacing={2}>
             {deleteDialog}
             <React.Fragment>
-                {props.recipe.img_url ?
+                {image_url ?
                     <div style={{ width: "calc(100% + 16px", margin: "-8px", marginBottom: 0, overflow: "hidden" }}>
-                        <img src={props.recipe.img_url} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
+                        <img src={image_url} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
                         <div style={{ backgroundColor: "#fff8eb", height: "32px", marginTop: "-32px", borderRadius: "8px 8px 0 0", boxShadow: "0 -4px 40px 0 #000F" }} />
                     </div>
                     :
                     <Box sx={{ marginTop: "64px !important" }} />
                 }
                 <Typography component="h1" variant="h5" sx={{ m: "-10px 0 10px 0 !important" }}>
-                    {props.recipe.name}
+                    {name}
                 </Typography>
                 {recipe &&
                     <React.Fragment>
