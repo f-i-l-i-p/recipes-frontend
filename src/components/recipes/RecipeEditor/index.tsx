@@ -2,7 +2,7 @@ import { Box, Button, Paper, Stack, TextField, Typography } from "@mui/material"
 import { useState } from "react";
 import Ingredient, { Recipe } from "../../../types/ingredient";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { encodeImageFileToBase64, isImage } from "../../../helpers/imageHelper";
+import { formatImageToURL, isImage } from "../../../helpers/imageHelper";
 import EditIngredientList from "../EditIngredientList";
 import EditInstructionList from "../EditInstructionList";
 import PhotoIcon from '@mui/icons-material/Photo';
@@ -26,8 +26,8 @@ const RecipeEditor = (props: Props) => {
         const file: File = (target.files as FileList)[0]
 
         isImage(file, () => { // If file is an image
-            encodeImageFileToBase64(file, (callback) => { // Encode
-                setImageURL(callback)
+            formatImageToURL(file, (dataURL) => {
+                setImageURL(dataURL)
             })
         })
     }

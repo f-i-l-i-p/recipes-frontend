@@ -1,3 +1,4 @@
+
 /**
  * Checks if a file is an image.
  * @param file File to check.
@@ -19,33 +20,52 @@ export function isImage(file: File, onYes?: () => void, onNo?: () => void): void
 }
 
 /**
- * Encodes an image file to base64.
- * @param file File to encode.
- * @param callback Called when result is ready.
+ * Format an image file to be ready to be sent to the server.
+ * The image is cropped, resized, and converted to a jpeg data URL.
+ * Result is returned in the callback.
+ * @param file Image file to optimize.
+ * @param callback Called with the result.
  */
-export function encodeImageFileToBase64(file: File, callback: (result: string) => void): void {
-    let reader = new FileReader();
-    reader.onloadend = function () {
-        if (typeof reader.result == "string")
-            callback(reader.result)
-    }
-    reader.readAsDataURL(file);
-}
+export function formatImageToURL(file: File, callback: (dataURL: string) => void): void {
+    const MAX_WIDTH = 800;
+    const MAX_HEIGHT = 800;
 
-/**
- * Decodes base64 to a file.
- * @param dataurl Data to decode.
- * @returns A new file object.
- */
-export function dataURLtoFile(dataurl: string) {
-    let arr = dataurl.split(',')
-    let bstr = atob(arr[1]); // TODO: Deprecated
-    let n = bstr.length;
-    let u8arr = new Uint8Array(n);
-
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+    /**
+     * Creates a canvas with size (WIDTH, HEIGHT)
+     * and returns the context.
+     */
+    const createCanvas = (width: number, height: number) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        return canvas.getContext('2d');
     }
 
-    return new File([u8arr], "file");
+    var img = new Image();
+    img.onload = function () {
+        // Create canvas
+        const canvas_width = Math.min(img.width, MAX_WIDTH)
+        const canvas_height = Math.min(img.height, MAX_HEIGHT)
+        const context = createCanvas(canvas_width, canvas_height)
+        if (!context) return;
+
+        // Calculate how much the image should be scaled to cover the canvas
+        const img_scale = Math.max(canvas_width / img.width, canvas_height / img.height)
+        const img_scaled_width = img.width * img_scale
+        const img_scaled_height = img.height * img_scale
+
+        // Calculate draw position to center the image in the canvas
+        const draw_x = (canvas_width - img_scaled_width) / 2
+        const draw_y = (canvas_height - img_scaled_height) / 2
+
+        // Draw and get data URL
+        context.drawImage(img, draw_x, draw_y, img_scaled_width, img_scaled_height)
+        const dataURL = context.canvas.toDataURL('image/jpeg')
+
+        // Delete canvas
+        context.canvas.remove()
+
+        callback(dataURL)
+    }
+    img.src = URL.createObjectURL(file);
 }

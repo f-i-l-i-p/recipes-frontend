@@ -1,7 +1,6 @@
 import { Box, Button, CircularProgress, Dialog, DialogTitle, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
-import { dataURLtoFile } from "../../../helpers/imageHelper";
 import { deleteRecipeRequest, recipeRequest } from "../../../interface/requests";
 import { Recipe } from "../../../types/ingredient";
 import IngredientList from "../../recipes/IngredientList";
