@@ -26,7 +26,7 @@ const RecipeListPage = () => {
     }
 
     const openRecipe = (recipeListItem: RecipeListItem) => {
-        dispatch(pushPage(<RecipePage id={recipeListItem.id} />))
+        dispatch(pushPage(<RecipePage recipe={recipeListItem} />))
     }
 
     React.useEffect(() => {

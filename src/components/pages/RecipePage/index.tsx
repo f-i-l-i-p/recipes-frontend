@@ -1,8 +1,8 @@
-import { Box, Button, CircularProgress, Dialog, DialogTitle, Stack, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogTitle, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import { deleteRecipeRequest, recipeRequest } from "../../../interface/requests";
-import { Recipe } from "../../../types/ingredient";
+import { Recipe, RecipeListItem } from "../../../types/ingredient";
 import IngredientList from "../../recipes/IngredientList";
 import InstructionList from "../../recipes/InstructionList";
 import EditIcon from '@mui/icons-material/Edit';
@@ -13,7 +13,7 @@ import { popPage, pushPage } from "../../../features/navigation/navigationSlice"
 import { DialogActions, DialogContent, DialogContentText } from "@material-ui/core";
 
 interface Props {
-    id: number,
+    recipe: RecipeListItem,
 }
 
 /**
@@ -22,20 +22,16 @@ interface Props {
  */
 const RecipePage = (props: Props) => {
     const dispatch = useAppDispatch()
-    const [recipeLoading, setRecipeLoading] = useState<boolean>(true)
     const [recipe, setRecipe] = useState<Recipe>()
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
     const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
 
     const request = () => {
-        recipeRequest(props.id, {
+        recipeRequest(props.recipe.id, {
             onSuccess: (json: any) => {
-                setRecipeLoading(false)
                 setRecipe(json)
             },
-            onError: (json: any) => {
-                setRecipeLoading(false)
-            },
+            onError: () => { },
         })
     }
 
@@ -47,7 +43,7 @@ const RecipePage = (props: Props) => {
 
     const deleteRecipe = () => {
         setDeleteLoading(true)
-        deleteRecipeRequest(props.id, {
+        deleteRecipeRequest(props.recipe.id, {
             onSuccess: () => {
                 dispatch(popPage())
             },
@@ -85,32 +81,41 @@ const RecipePage = (props: Props) => {
     return (
         <Stack spacing={2}>
             {deleteDialog}
-            {recipeLoading ?
-                <CircularProgress sx={{marginLeft: "auto", marginRight: "auto"}} />
-                :
-                recipe &&
-                <React.Fragment>
-                    {recipe.img_url &&
-                        <div style={{ width: "calc(100% + 16px", margin: "-8px", marginBottom: 0, overflow: "hidden" }}>
-                            <img src={recipe.img_url} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
-                            <div style={{ backgroundColor: "#fff8eb", height: "32px", marginTop: "-32px", borderRadius: "8px 8px 0 0", boxShadow: "0 -4px 40px 0 #000F" }} />
-                        </div>
-                    }
-                    <Typography component="h1" variant="h5" sx={{m: "-10px 0 10px 0 !important"}}>
-                        {recipe.name}
-                    </Typography>
-                    <IngredientList ingredients={recipe.ingredients} />
-                    <Box sx={{ marginTop: "32px !important" }} />
-                    <InstructionList instructions={recipe.instructions} />
-                    <Box sx={{ marginTop: "32px !important" }} />
-                    {/* TODO: Only show if recipe created by user */}
-                    <Stack direction="row" justifyContent="space-between">
-                        <Button variant="text" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
-                        <Button disabled={deleteLoading} variant="text" color="error" startIcon={<DeleteIcon />} onClick={() => setShowDeleteDialog(true)}>Radera</Button>
-                    </Stack>
-                    <Box sx={{ marginTop: "32px !important" }} />
-                </React.Fragment>
-            }
+            <React.Fragment>
+                {props.recipe.img_url ?
+                    <div style={{ width: "calc(100% + 16px", margin: "-8px", marginBottom: 0, overflow: "hidden" }}>
+                        <img src={props.recipe.img_url} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
+                        <div style={{ backgroundColor: "#fff8eb", height: "32px", marginTop: "-32px", borderRadius: "8px 8px 0 0", boxShadow: "0 -4px 40px 0 #000F" }} />
+                    </div>
+                    :
+                    <Box sx={{ marginTop: "64px !important" }} />
+                }
+                <Typography component="h1" variant="h5" sx={{ m: "-10px 0 10px 0 !important" }}>
+                    {props.recipe.name}
+                </Typography>
+                {recipe &&
+                    <React.Fragment>
+                        {recipe.ingredients.length > 0 &&
+                            <React.Fragment>
+                                <IngredientList ingredients={recipe.ingredients} />
+                                <Box sx={{ marginTop: "32px !important" }} />
+                            </React.Fragment>
+                        }
+                        {recipe.instructions.length > 0 &&
+                            <React.Fragment>
+                                <InstructionList instructions={recipe.instructions} />
+                                <Box sx={{ marginTop: "32px !important" }} />
+                            </React.Fragment>
+                        }
+                        {/* TODO: Only show if recipe created by user */}
+                        <Stack direction="row" justifyContent="space-between">
+                            <Button variant="text" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
+                            <Button disabled={deleteLoading} variant="text" color="error" startIcon={<DeleteIcon />} onClick={() => setShowDeleteDialog(true)}>Radera</Button>
+                        </Stack>
+                    </React.Fragment>
+                }
+                <Box sx={{ marginTop: "32px !important" }} />
+            </React.Fragment>
         </Stack>
     )
 }
