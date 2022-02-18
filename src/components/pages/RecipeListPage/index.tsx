@@ -36,7 +36,7 @@ const RecipeListPage = () => {
     return (
         <Stack>
             {isLoading &&
-                <CircularProgress />
+                <CircularProgress sx={{marginLeft: "auto", marginRight: "auto"}} />
             }
             <Box sx={{ marginTop: "16px !important" }} />
             {recipes.map((recipe, index) =>

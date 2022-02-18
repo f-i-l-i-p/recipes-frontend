@@ -86,7 +86,7 @@ const RecipePage = (props: Props) => {
         <Stack spacing={2}>
             {deleteDialog}
             {recipeLoading ?
-                <CircularProgress />
+                <CircularProgress sx={{marginLeft: "auto", marginRight: "auto"}} />
                 :
                 recipe &&
                 <React.Fragment>
