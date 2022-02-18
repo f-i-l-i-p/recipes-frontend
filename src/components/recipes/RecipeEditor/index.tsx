@@ -5,7 +5,6 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { formatImageToURL, isImage } from "../../../helpers/imageHelper";
 import EditIngredientList from "../EditIngredientList";
 import EditInstructionList from "../EditInstructionList";
-import PhotoIcon from '@mui/icons-material/Photo';
 
 
 interface Props {
@@ -19,7 +18,7 @@ const RecipeEditor = (props: Props) => {
     const [recipeName, setRecipeName] = useState<string>(props.startRecipe?.name || "")
     const [recipeIngredients, setIngredients] = useState<Ingredient[]>(props.startRecipe?.ingredients || [])
     const [recipeInstructions, setInstructions] = useState<string[]>(props.startRecipe?.instructions || [])
-    const [recipeImageURL, setImageURL] = useState<string>(props.startRecipe?.img_url || "")
+    const [recipeImageURL, setImageURL] = useState<string>()
 
     const onImageUpload = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const target = event.target as HTMLInputElement
@@ -43,6 +42,10 @@ const RecipeEditor = (props: Props) => {
 
         props.onComplete(recipeName, recipeIngredients, recipeInstructions, recipeImageURL)
     }
+
+    // If the user has picked an image, display that.
+    // Otherwise show the currently saved recipe image or a placeholder image.
+    const currentImageURL = recipeImageURL || props.startRecipe?.img_url || process.env.PUBLIC_URL + "/gray.png"
 
     return (
         <Stack spacing={4}>
@@ -87,8 +90,8 @@ const RecipeEditor = (props: Props) => {
                 </Typography>
                 <Paper sx={{ overflow: "hidden" }}>
                     <Stack direction="row">
-                        <div style={{ width: "40%", aspectRatio: "1 / 1", maxHeight: "40vw", backgroundColor: "#0002", display: "flex", alignItems: "center", justifyContent: "center" }} >
-                            <img src={recipeImageURL || process.env.PUBLIC_URL + "/gray.png"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <div style={{ width: "40%", aspectRatio: "1 / 1", maxHeight: "40vw" }} >
+                            <img src={currentImageURL} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         </div>
                         <div style={{ width: "100%", alignSelf: "center" }}>
                             <label htmlFor="icon-button-file">
