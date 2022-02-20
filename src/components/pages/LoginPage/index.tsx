@@ -43,6 +43,10 @@ const LoginPage = () => {
             onError: (json) => {
                 setIsLoginLoading(false);
                 setIsCreateLoading(false);
+
+                if (json.msg === "Wrong email or password") {
+                    alert("Fel mejladress eller lösenord")
+                }
             },
         })
     }
@@ -99,7 +103,7 @@ const LoginPage = () => {
     return (
         <div id="login-page">
             {isStartupLoading ?
-                <CarrotLoading style={{position: "fixed", margin: "auto", left: 0, right: 0, bottom: 0, top: 0}} />
+                <CarrotLoading style={{ position: "fixed", margin: "auto", left: 0, right: 0, bottom: 0, top: 0 }} />
                 :
                 <Stack spacing={3} sx={{ maxWidth: "400px", alignSelf: "center", margin: "auto" }}>
                     <Paper sx={{ p: "16px" }}>
