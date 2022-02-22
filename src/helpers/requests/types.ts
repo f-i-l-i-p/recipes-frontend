@@ -1,8 +1,13 @@
 
-export default interface Ingredient {
-    quantity: number,
-    unit: string,
+export interface User {
     name: string,
+    id: number,
+}
+
+export interface FriendLists {
+    friends: User[],
+    incoming_requests: User[],
+    outgoing_requests: User[],
 }
 
 export interface RecipeListItem {
@@ -12,18 +17,18 @@ export interface RecipeListItem {
     img_url: string,
 }
 
+export interface Ingredient {
+    quantity: number,
+    unit: string,
+    name: string,
+}
+
 export interface Recipe {
     id: number,
     name: string,
     ingredients: Ingredient[],
     instructions: string[],
     user: string,
-    comments: any[],
     likes: number,
     img_url: string,
-}
-
-export interface User {
-    name: string,
-    id: number,
 }

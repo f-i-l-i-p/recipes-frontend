@@ -2,7 +2,7 @@ import { Box, Button, Dialog, DialogTitle, Stack, Typography } from "@mui/materi
 import React from "react";
 import { useState } from "react";
 import { deleteRecipeRequest, recipeRequest } from "../../../helpers/requests/routes";
-import { Recipe, RecipeListItem } from "../../../types/ingredient";
+import { Recipe, RecipeListItem } from "../../../helpers/requests/types";
 import IngredientList from "../../recipes/IngredientList";
 import InstructionList from "../../recipes/InstructionList";
 import EditIcon from '@mui/icons-material/Edit';

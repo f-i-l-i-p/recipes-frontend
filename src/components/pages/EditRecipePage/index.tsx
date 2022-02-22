@@ -1,7 +1,7 @@
 import RecipeEditor from "../../recipes/RecipeEditor";
-import Ingredient, { Recipe } from "../../../types/ingredient";
 import { useState } from "react";
 import { changeRecipeRequest } from "../../../helpers/requests/routes";
+import { Recipe, Ingredient } from "../../../helpers/requests/types";
 
 interface Props {
     onComplete: () => void,

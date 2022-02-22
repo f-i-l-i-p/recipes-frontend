@@ -1,10 +1,10 @@
 import { Box, Button, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import Ingredient, { Recipe } from "../../../types/ingredient";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { formatImageToURL, isImage } from "../../../helpers/imageHelper";
 import EditIngredientList from "../EditIngredientList";
 import EditInstructionList from "../EditInstructionList";
+import { Ingredient, Recipe } from "../../../helpers/requests/types";
 
 
 interface Props {

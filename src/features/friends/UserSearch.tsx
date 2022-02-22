@@ -4,7 +4,7 @@ import { useState } from "react";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { createFriendRequest, searchUsersRequest } from "../../helpers/requests/routes";
 import React from "react";
-import { User } from "../../types/ingredient";
+import { User } from "../../helpers/requests/types";
 import { useAppDispatch } from "../../app/hooks";
 import { fetchFriends } from "./friendsSlice";
 import { Callback } from "../../helpers/requests/requestHandler";

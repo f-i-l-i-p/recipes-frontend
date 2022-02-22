@@ -1,8 +1,8 @@
 import { Box, Divider, IconButton, List, ListItem, Paper, Stack, TextField, Typography } from "@mui/material";
-import Ingredient from "../../../types/ingredient";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import React from "react";
+import { Ingredient } from "../../../helpers/requests/types";
 
 interface Props {
     setIngredients: (ingredients: Ingredient[]) => void,

@@ -3,7 +3,7 @@ import ListItemButton from "@material-ui/core/ListItemButton"
 import Paper from "@material-ui/core/Paper"
 import Stack from "@material-ui/core/Stack"
 import Typography from "@material-ui/core/Typography"
-import { RecipeListItem } from "../../../types/ingredient"
+import { RecipeListItem } from "../../../helpers/requests/types"
 
 interface Props {
     item: RecipeListItem,

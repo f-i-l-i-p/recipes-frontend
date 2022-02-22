@@ -1,9 +1,9 @@
 import RecipeEditor from "../../recipes/RecipeEditor";
-import Ingredient from "../../../types/ingredient";
 import { uploadRecipeRequest } from "../../../helpers/requests/routes";
 import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
 import { BasePage, setBasePage } from "../../../features/navigation/navigationSlice";
+import { Ingredient } from "../../../helpers/requests/types";
 
 /**
  * Page for creating new recipes.

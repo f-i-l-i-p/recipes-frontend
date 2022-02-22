@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Callback } from '../../helpers/requests/requestHandler';
 import { listFriendsRequest, searchUsersRequest } from '../../helpers/requests/routes';
-import { User } from '../../types/ingredient';
+import { FriendLists, User } from '../../helpers/requests/types';
 import { Friends } from './types';
 
 interface FriendsState {
@@ -10,7 +10,7 @@ interface FriendsState {
 }
 
 const initialState: FriendsState = {
-    friends: {
+    friends: { // TODO: Change to FriendLists interface
         currentFriends: [],
         incomingRequests: [],
         outgoingRequests: [],
@@ -33,7 +33,7 @@ export const friendsSlice = createSlice({
 
 export function fetchFriends() {
     return async function fetchFriendsThunk(dispatch: any, getState: any) { // TODO: Fix any type.
-        const callback: Callback<any> = {
+        const callback: Callback<FriendLists> = {
             onSuccess: (res) => {
                 dispatch(setFriends({ // TODO: Fill in data
                     currentFriends: res.data.friends,

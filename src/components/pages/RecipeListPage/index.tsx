@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
 import { pushPage } from "../../../features/navigation/navigationSlice";
 import { latestRecipesRequest } from "../../../helpers/requests/routes";
-import { RecipeListItem } from "../../../types/ingredient";
+import { RecipeListItem } from "../../../helpers/requests/types";
 import RecipePage from "../RecipePage";
 import RecipeListItemComponent from "./RecipeListItemComponent";
 

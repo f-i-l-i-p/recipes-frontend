@@ -2,7 +2,7 @@ import { setCookie, getCookie } from "../cookies";
 
 const URL = process.env.REACT_APP_BACKEND_URL
 
-let token = "";
+let token: string | undefined = undefined;
 
 interface Response<T> {
     status: number,
@@ -15,17 +15,14 @@ export interface Callback<T = any> {
 }
 
 function getToken(): string | null {
-    if (token) {
-        return token
-    } else {
-        return getCookie("token")
-    }
+    return token ? token : getCookie("token")
 }
 
 export function setToken(t: string): void {
     token = t
     setCookie("token", t, 365)
 }
+
 
 /**
  * For performing POST requests to the backend.

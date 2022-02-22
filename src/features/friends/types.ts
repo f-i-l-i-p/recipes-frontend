@@ -1,4 +1,4 @@
-import { User } from "../../types/ingredient";
+import { User } from "../../helpers/requests/types";
 
 export interface Friends {
     currentFriends: User[],

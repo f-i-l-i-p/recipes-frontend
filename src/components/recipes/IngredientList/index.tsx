@@ -1,5 +1,5 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
-import Ingredient from "../../../types/ingredient"
+import { Ingredient } from "../../../helpers/requests/types";
 
 interface Props {
     ingredients: Ingredient[]
