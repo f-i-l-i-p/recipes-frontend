@@ -1,7 +1,7 @@
 import RecipeEditor from "../../recipes/RecipeEditor";
 import Ingredient, { Recipe } from "../../../types/ingredient";
 import { useState } from "react";
-import { changeRecipeRequest } from "../../../interface/requests";
+import { changeRecipeRequest } from "../../../helpers/requests/routes";
 
 interface Props {
     onComplete: () => void,
@@ -18,11 +18,11 @@ function EditRecipePage(props: Props) {
         setIsLoading(true)
 
         const listener = {
-            onSuccess: (json: any) => {
+            onSuccess: () => {
                 setIsLoading(false)
                 props.onComplete()
             },
-            onError: (json: any) => {
+            onError: () => {
                 alert("Error")
                 setIsLoading(false)
             }

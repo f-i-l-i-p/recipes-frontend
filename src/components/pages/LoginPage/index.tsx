@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
 import { BasePage, setBasePage } from '../../../features/navigation/navigationSlice';
-import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../interface/requests';
+import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../helpers/requests/routes';
 import CarrotLoading from '../../CarrotLoading';
 import { fetchFriends } from "../../../features/friends/friendsSlice";
 
@@ -27,24 +27,24 @@ const LoginPage = () => {
     // Automatically login if valid token
     const checkToken = () => {
         checkTokenRequest({
-            onSuccess: (json) => { onLogin(); },
-            onError: (json) => { setStartupLoading(false) },
+            onSuccess: () => { onLogin(); },
+            onError: () => { setStartupLoading(false) },
         })
     }
 
     // Sends a login request and handles the response
     const login = (email: string, password: string) => {
         loginRequest(email, password, {
-            onSuccess: (json) => {
+            onSuccess: () => {
                 setIsLoginLoading(false);
                 setIsCreateLoading(false);
                 onLogin();
             },
-            onError: (json) => {
+            onError: (res) => {
                 setIsLoginLoading(false);
                 setIsCreateLoading(false);
 
-                if (json.msg === "Wrong email or password") {
+                if (res.data.msg === "Wrong email or password") {
                     alert("Fel mejladress eller lösenord")
                 }
             },
@@ -54,10 +54,10 @@ const LoginPage = () => {
     // Sends a create account request and handles the response
     const createAccount = (name: string, email: string, password: string) => {
         createAccountRequest(name, email, password, {
-            onSuccess: (json) => {
+            onSuccess: () => {
                 login(email, password)
             },
-            onError: (json) => {
+            onError: () => {
                 setIsCreateLoading(false);
             }
         })

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { listFriendsRequest, searchUsersRequest } from '../../interface/requests';
+import { Callback } from '../../helpers/requests/requestHandler';
+import { listFriendsRequest, searchUsersRequest } from '../../helpers/requests/routes';
 import { User } from '../../types/ingredient';
 import { Friends } from './types';
 
@@ -32,12 +33,12 @@ export const friendsSlice = createSlice({
 
 export function fetchFriends() {
     return async function fetchFriendsThunk(dispatch: any, getState: any) { // TODO: Fix any type.
-        const callback = {
-            onSuccess: (json: any) => {
+        const callback: Callback<any> = {
+            onSuccess: (res) => {
                 dispatch(setFriends({ // TODO: Fill in data
-                    currentFriends: json.friends,
-                    incomingRequests: json.incoming_requests,
-                    outgoingRequests: json.outgoing_requests,
+                    currentFriends: res.data.friends,
+                    incomingRequests: res.data.incoming_requests,
+                    outgoingRequests: res.data.outgoing_requests,
                 }))
             },
             onError: () => {
@@ -50,10 +51,11 @@ export function fetchFriends() {
     }
 }
 
+// TODO: Why did I create this function? It is not used and is not working. Remove?
 export function searchUsers(searchTerm: string) {
     return async function searchUsersThunk(dispatch: any, getState: any) { // TODO: Fix any type.
-        const callback = {
-            onSuccess: (json: any) => {
+        const callback: Callback<any> = {
+            onSuccess: () => {
                 dispatch(setSearchResult([{ name: "test", id: 3 }]))
             },
             onError: () => {

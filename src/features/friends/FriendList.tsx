@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import ConfirmDialog, { Props as DialogProps } from "../../components/ConfirmDialog";
-import { acceptFriendRequest, cancelFriendRequest, removeFriendRequest } from "../../interface/requests";
+import { acceptFriendRequest, cancelFriendRequest, removeFriendRequest } from "../../helpers/requests/routes";
 import { User } from "../../types/ingredient";
 import { fetchFriends } from "./friendsSlice";
 import { Friends } from "./types";

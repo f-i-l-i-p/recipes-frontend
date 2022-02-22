@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
 import { pushPage } from "../../../features/navigation/navigationSlice";
-import { latestRecipesRequest } from "../../../interface/requests";
+import { latestRecipesRequest } from "../../../helpers/requests/routes";
 import { RecipeListItem } from "../../../types/ingredient";
 import RecipePage from "../RecipePage";
 import RecipeListItemComponent from "./RecipeListItemComponent";
@@ -15,11 +15,11 @@ const RecipeListPage = () => {
 
     const request = () => {
         latestRecipesRequest(null, {
-            onSuccess: (json: any) => {
+            onSuccess: (res) => {
                 setIsLoading(false)
-                setRecipes(json.result)
+                setRecipes(res.data.result)
             },
-            onError: (json: any) => {
+            onError: () => {
                 setIsLoading(false)
             },
         })

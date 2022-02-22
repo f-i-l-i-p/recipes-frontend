@@ -2,11 +2,12 @@
 import { Button, Dialog, DialogActions, DialogContent, Divider, IconButton, List, ListItem, ListItemText, Snackbar, TextField } from "@mui/material";
 import { useState } from "react";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { createFriendRequest, searchUsersRequest } from "../../interface/requests";
+import { createFriendRequest, searchUsersRequest } from "../../helpers/requests/routes";
 import React from "react";
 import { User } from "../../types/ingredient";
 import { useAppDispatch } from "../../app/hooks";
 import { fetchFriends } from "./friendsSlice";
+import { Callback } from "../../helpers/requests/requestHandler";
 
 interface Props {
     show: boolean,
@@ -29,10 +30,9 @@ const UserSearchDialog = (props: Props) => {
             return;
         }
 
-        const callback = {
-            onSuccess: (json: any) => {
-                console.log(json)
-                setUsers(json.result)
+        const callback: Callback = {
+            onSuccess: (res) => {
+                setUsers(res.data.result)
                 setIsLoading(false)
             },
             onError: () => {

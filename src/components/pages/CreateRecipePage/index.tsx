@@ -1,6 +1,6 @@
 import RecipeEditor from "../../recipes/RecipeEditor";
 import Ingredient from "../../../types/ingredient";
-import { uploadRecipeRequest } from "../../../interface/requests";
+import { uploadRecipeRequest } from "../../../helpers/requests/routes";
 import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
 import { BasePage, setBasePage } from "../../../features/navigation/navigationSlice";
@@ -15,11 +15,11 @@ function CreateRecipePage() {
     const onCreate = (name: string, ingredients: Ingredient[], instructions: string[], image: string | undefined) => {
         setIsLoading(true)
         
-        const onSuccess = (json: any) => {
+        const onSuccess = () => {
             dispatch(setBasePage(BasePage.RecipeList))
             setIsLoading(false)
         }
-        const onError = (json: any) => {
+        const onError = () => {
             alert("Error")
             setIsLoading(false)
         }

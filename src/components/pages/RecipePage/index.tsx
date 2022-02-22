@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, DialogTitle, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
-import { deleteRecipeRequest, recipeRequest } from "../../../interface/requests";
+import { deleteRecipeRequest, recipeRequest } from "../../../helpers/requests/routes";
 import { Recipe, RecipeListItem } from "../../../types/ingredient";
 import IngredientList from "../../recipes/IngredientList";
 import InstructionList from "../../recipes/InstructionList";
@@ -28,10 +28,7 @@ const RecipePage = (props: Props) => {
 
     const request = () => {
         recipeRequest(props.recipe.id, {
-            onSuccess: (json: any) => {
-                setRecipe(json)
-            },
-            onError: () => { },
+            onSuccess: (res) => { setRecipe(res.data) },
         })
     }
 

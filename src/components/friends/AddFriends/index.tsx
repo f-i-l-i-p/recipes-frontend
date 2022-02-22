@@ -1,10 +1,10 @@
 import { AppBar, Button, CircularProgress, Dialog, DialogActions, DialogContent, Divider, Fab, IconButton, List, ListItem, ListItemText, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { useState } from "react";
-import { latestRecipesRequest } from "../../../interface/requests";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import { Friends } from "../../../features/friends/types";
+import { latestRecipesRequest } from "../../../helpers/requests/routes";
 
 const AddFriends = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)

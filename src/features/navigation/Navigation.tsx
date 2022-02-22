@@ -9,7 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import { logoutRequest } from "../../interface/requests";
+import { logoutRequest } from "../../helpers/requests/routes";
 import { BasePage, popPage, setBasePage } from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import React from "react";
