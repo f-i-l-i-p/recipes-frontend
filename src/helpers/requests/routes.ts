@@ -66,7 +66,7 @@ export async function deleteRecipeRequest(recipeId: number, callback: Callback):
 }
 
 
-export async function latestRecipesRequest(searchTerm: string | null, callback: Callback<{ result: RecipeListItem[] }>): Promise<void> {
+export async function latestRecipesRequest(searchTerm: string | undefined, callback: Callback<{ result: RecipeListItem[] }>): Promise<void> {
     const body = searchTerm ? { match: searchTerm } : {}
 
     post("recipes/latest", callback, true, body)
