@@ -9,8 +9,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditRecipePage from "../EditRecipePage";
 import { useAppDispatch } from "../../../app/hooks";
-import { popPage, pushPage } from "../../../features/navigation/navigationSlice";
 import { DialogActions, DialogContent, DialogContentText } from "@material-ui/core";
+import { pushPage } from "../../../features/navigation/navigationSlice";
 
 interface Props {
     recipe: RecipeListItem,
@@ -34,7 +34,7 @@ const RecipePage = (props: Props) => {
 
     const editRecipe = () => {
         if (recipe) {
-            dispatch(pushPage(<EditRecipePage onComplete={() => dispatch(popPage())} recipe={recipe} />))
+            dispatch(pushPage(<EditRecipePage onComplete={() => window.history.back()} recipe={recipe} />))
         }
     }
 
@@ -42,7 +42,7 @@ const RecipePage = (props: Props) => {
         setDeleteLoading(true)
         deleteRecipeRequest(props.recipe.id, {
             onSuccess: () => {
-                dispatch(popPage())
+                window.history.back();
             },
             onError: () => {
                 alert("Delete recipe error")

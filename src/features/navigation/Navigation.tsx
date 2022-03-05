@@ -10,16 +10,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { logoutRequest } from "../../helpers/requests/routes";
-import { BasePage, popPage, setBasePage } from "./navigationSlice";
+import { historyEvent, pushPage, setShowNavigation } from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import React from "react";
 import { Friends } from "../friends/types";
+import CreateRecipePage from "../../components/pages/CreateRecipePage";
+import RecipeListPage from "../recipeList/RecipeList";
+import FriendsPage from "../../components/pages/FriendsPage";
+import LoginPage from "../../components/pages/LoginPage";
 
 const DRAWER_WIDTH = 240;
 
 function Navigation() {
     const dispatch = useAppDispatch()
     const pages = useAppSelector((state) => state.navigation.pages)
+    const currentPageIndex = useAppSelector((state) => state.navigation.currentPageIndex)
     const showNavigation = useAppSelector((state) => state.navigation.showNavigation)
     const friends: Friends = useAppSelector((state) => state.friends.friends)
 
@@ -27,7 +32,10 @@ function Navigation() {
 
     const handleLogout = () => {
         logoutRequest({
-            onSuccess: () => dispatch(setBasePage(BasePage.Login)),
+            onSuccess: () => {
+                dispatch(pushPage(<LoginPage />))
+                dispatch(setShowNavigation(false))
+            },
             onError: () => { alert("Error") },
         })
     }
@@ -36,24 +44,35 @@ function Navigation() {
         setMobileOpen(false);
     }
 
+    const onBackButtonClick = () => {
+        window.history.back()
+    }
+
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
 
-    const currentPage = pages[pages.length - 1]
+    const currentPage = pages[currentPageIndex].page
+
+    React.useEffect(() => {
+        // Listen for popstate events to handle back/forward.
+        window.addEventListener('popstate', function (event: PopStateEvent) {
+            dispatch(historyEvent(event))
+        })
+    }, []);
 
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                <ListItem button onClick={() => { onListClick(); dispatch(setBasePage(BasePage.RecipeList)) }}>
+                <ListItem button onClick={() => { onListClick(); dispatch(pushPage(<RecipeListPage />)) }}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>
                     <ListItemText primary="Recept" />
                 </ListItem>
-                <ListItem button onClick={() => { onListClick(); dispatch(setBasePage(BasePage.CreateRecipe)) }}>
+                <ListItem button onClick={() => { onListClick(); dispatch(pushPage(<CreateRecipePage />)) }}>
                     <ListItemIcon>
                         <AddIcon />
                     </ListItemIcon>
@@ -65,7 +84,7 @@ function Navigation() {
                     </ListItemIcon>
                     <ListItemText primary="Gillade Recept" />
                 </ListItem>
-                <ListItem button onClick={() => { onListClick(); dispatch(setBasePage(BasePage.Friends)) }}>
+                <ListItem button onClick={() => { onListClick(); dispatch(pushPage(<FriendsPage />)) }}>
                     <ListItemIcon>
                         <PeopleIcon />
                     </ListItemIcon>
@@ -123,7 +142,7 @@ function Navigation() {
                                     color="inherit"
                                     aria-label="back"
                                     edge="start"
-                                    onClick={() => dispatch(popPage())}
+                                    onClick={() => onBackButtonClick()}
                                     sx={{ mr: 2 }}
                                 >
                                     <ArrowBackIcon />

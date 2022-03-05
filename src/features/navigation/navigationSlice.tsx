@@ -1,39 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import React from 'react';
-import CreateRecipePage from '../../components/pages/CreateRecipePage';
-import FriendsPage from '../../components/pages/FriendsPage';
-import LoginPage from '../../components/pages/LoginPage';
-import RecipeListPage from '../../components/pages/RecipeListPage';
+import LoginPage from '../../components/pages/LoginPage'
 
-export enum BasePage {
-  Login,
-  RecipeList,
-  CreateRecipe,
-  Friends,
-}
-
-function createBasePage(page: BasePage): JSX.Element {
-  switch (page) {
-    case BasePage.Login:
-      return <LoginPage />
-    case BasePage.RecipeList:
-      return <RecipeListPage />
-    case BasePage.CreateRecipe:
-      return <CreateRecipePage />
-    case BasePage.Friends:
-      return <FriendsPage />
-    default:
-      return <React.Fragment />
-  }
+interface IdPagePair {
+  page: JSX.Element,
+  id: number,
 }
 
 interface NavigationState {
-  pages: JSX.Element[],
+  pages: IdPagePair[],
+  currentPageIndex: number,
+  idCounter: number,
   showNavigation: boolean,
 }
 
 const initialState: NavigationState = {
-  pages: [createBasePage(BasePage.Login)],
+  pages: [{ page: <LoginPage />, id: 0 }],
+  currentPageIndex: 0,
+  idCounter: 1,
   showNavigation: false,
 }
 
@@ -41,31 +24,72 @@ export const navigationSlice = createSlice({
   name: 'navigation',
   initialState: initialState,
   reducers: {
-    pushPage: (state, action: PayloadAction<JSX.Element>) => {
-      console.log("pushed")
-      state.pages = [...state.pages, action.payload]
-      window.scrollTo(0, 0)
-    },
-    popPage: (state) => {
-      if (state.pages.length > 1) {
-        let newValue = [...state.pages]
-        newValue.pop()
-        state.pages = newValue
-        window.scrollTo(0, 0)
-      }
-    },
-    setBasePage: (state, action: PayloadAction<BasePage>) => {
-      if (action.payload === BasePage.Login)
-        state.showNavigation = false
-      else
-        state.showNavigation = true
+    /**
+     * Handles PopStateEvents from the browser to go back or forward in history.
+     */
+    historyEvent: (state, action: PayloadAction<PopStateEvent>) => {
+      let eventPageId: number
 
-      state.pages = [createBasePage(action.payload)]
+      // The state of the root page will be 'null' and should have id 0.
+      if (action.payload.state === null) {
+        eventPageId = 0
+      } else {
+        eventPageId = action.payload.state
+      }
+
+      let eventPageIndex = 0
+
+      // Find index of page with matching id
+      const pages = state.pages
+      for (let i = 0; i < pages.length; i++) {
+        if (pages[i].id === eventPageId) {
+          eventPageIndex = i
+          break
+        }
+      }
+
+      state.currentPageIndex = eventPageIndex
+    },
+    /**
+     * Pushes a new page and opens it. Removes forward history.
+     */
+    pushPage: (state, action: PayloadAction<JSX.Element>) => {
+      const id = state.idCounter;
+      window.history.pushState(id, "", window.location.href)
+
+      let newPages = [...state.pages]
+
+      // Remove forward history if it should be removed.
+      const index = state.currentPageIndex;
+      if (index + 1 < newPages.length) { // If not last index
+        newPages.splice(index + 1, newPages.length - index - 1)
+      }
+
+      newPages.push({ page: action.payload, id: id })
+
+      state.idCounter += 1
+      state.pages = newPages
+      state.currentPageIndex += 1
+
       window.scrollTo(0, 0)
+    },
+    /**
+     * Replaces the current page. Does not affect forward or backwards history.
+     */
+    replacePage: (state, action: PayloadAction<JSX.Element>) => {
+      const id = state.pages[state.currentPageIndex].id
+      window.history.replaceState(id, "", window.location.href)
+
+      state.pages[state.currentPageIndex] = { page: action.payload, id: id }
+
+      window.scrollTo(0, 0)
+    },
+    setShowNavigation: (state, action: PayloadAction<boolean>) => {
+      state.showNavigation = action.payload
     }
   },
 })
 
-export const { pushPage, popPage, setBasePage } = navigationSlice.actions
+export const { historyEvent, pushPage, replacePage, setShowNavigation } = navigationSlice.actions
 
 export default navigationSlice.reducer

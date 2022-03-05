@@ -2,10 +2,11 @@ import { Stack, Paper, Typography, TextField, Button } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../app/hooks';
-import { BasePage, setBasePage } from '../../../features/navigation/navigationSlice';
+import { replacePage, setShowNavigation } from '../../../features/navigation/navigationSlice';
 import { checkTokenRequest, createAccountRequest, loginRequest } from '../../../helpers/requests/routes';
 import CarrotLoading from '../../CarrotLoading';
 import { fetchFriends } from "../../../features/friends/friendsSlice";
+import RecipeListPage from '../../../features/recipeList/RecipeList';
 
 // TODO: Warn user if error
 /**
@@ -21,7 +22,8 @@ const LoginPage = () => {
 
     const onLogin = () => {
         dispatch(fetchFriends())
-        dispatch(setBasePage(BasePage.RecipeList))
+        dispatch(setShowNavigation(true))
+        dispatch(replacePage(<RecipeListPage />))
     }
 
     // Automatically login if valid token

@@ -2,8 +2,9 @@ import RecipeEditor from "../../recipes/RecipeEditor";
 import { uploadRecipeRequest } from "../../../helpers/requests/routes";
 import { useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
-import { BasePage, setBasePage } from "../../../features/navigation/navigationSlice";
+import { replacePage } from "../../../features/navigation/navigationSlice";
 import { Ingredient } from "../../../helpers/requests/types";
+import RecipeListPage from "../../../features/recipeList/RecipeList";
 
 /**
  * Page for creating new recipes.
@@ -16,7 +17,7 @@ function CreateRecipePage() {
         setIsLoading(true)
         
         const onSuccess = () => {
-            dispatch(setBasePage(BasePage.RecipeList))
+            dispatch(replacePage(<RecipeListPage />))
             setIsLoading(false)
         }
         const onError = () => {
