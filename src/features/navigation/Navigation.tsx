@@ -53,6 +53,7 @@ function Navigation() {
     };
 
     const currentPage = pages[currentPageIndex].page
+    const showBackButton = currentPageIndex !== 0
 
     React.useEffect(() => {
         // Listen for popstate events to handle back/forward.
@@ -137,7 +138,7 @@ function Navigation() {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            {pages.length > 1 &&
+                            {showBackButton &&
                                 <IconButton
                                     color="inherit"
                                     aria-label="back"
