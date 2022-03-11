@@ -107,7 +107,7 @@ const LoginPage = () => {
             {isStartupLoading ?
                 <CarrotLoading style={{ position: "fixed", margin: "auto", left: 0, right: 0, bottom: 0, top: 0 }} />
                 :
-                <Stack spacing={3} sx={{ maxWidth: "400px", alignSelf: "center", margin: "auto" }}>
+                <Stack spacing={3} sx={{ maxWidth: "400px", alignSelf: "center", margin: "auto", p: 2 }}>
                     <Paper sx={{ p: "16px" }}>
                         <Stack spacing={1} component="form" onSubmit={handleLoginSubmit}>
                             <Typography component="h1" variant="h5">

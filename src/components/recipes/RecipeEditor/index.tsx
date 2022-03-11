@@ -48,8 +48,7 @@ const RecipeEditor = (props: Props) => {
     const currentImageURL = recipeImageURL || props.startRecipe?.img_url || process.env.PUBLIC_URL + "/gray.png"
 
     return (
-        <Stack spacing={4}>
-            <Box sx={{ marginTop: "0px !important" }} />
+        <Stack spacing={4} sx={{m: 2, mt: 3}}>
 
             <Paper id="main-form" component="form" onSubmit={onFormSubmit} sx={{ p: "16px" }}>
                 {/* Hidden button to prevent the form from submitting by pressing enter. */}
@@ -73,19 +72,19 @@ const RecipeEditor = (props: Props) => {
                 />
             </Paper >
             <div>
-                <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
+                <Typography variant="h6" component="h2" align="left" sx={{ ml: 2 }}>
                     Ingredienser
                 </Typography>
                 <EditIngredientList ingredients={recipeIngredients} setIngredients={setIngredients} />
             </div>
             <div>
-                <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
+                <Typography variant="h6" component="h2" align="left" sx={{ ml: 2 }}>
                     Instruktioner
                 </Typography>
                 <EditInstructionList instructions={recipeInstructions} setInstructions={setInstructions} />
             </div>
             <div>
-                <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
+                <Typography variant="h6" component="h2" align="left" sx={{ ml: 2 }}>
                     Bild
                 </Typography>
                 <Paper sx={{ overflow: "hidden" }}>
@@ -108,7 +107,7 @@ const RecipeEditor = (props: Props) => {
             <Button disabled={props.showLoading} type="submit" variant="contained" form="main-form">
                 {props.completeButtonText}
             </Button>
-            <Box sx={{ marginTop: "100px !important" }} />
+            <Box sx={{ marginTop: "50px !important" }} />
         </Stack >
     )
 }

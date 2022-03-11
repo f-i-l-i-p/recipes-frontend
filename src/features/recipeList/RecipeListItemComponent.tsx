@@ -14,12 +14,12 @@ const RecipeListItemComponent = (props: Props) => {
     const img = props.item.img_url || process.env.PUBLIC_URL + "/gray.png"
 
     return (
-        <ListItem component={Paper} sx={{ overflow: "hidden" }} disablePadding>
+        <ListItem component={Paper} sx={{ overflow: "hidden", m: "12px", mb: 0, maxWidth: "calc(100% - 24px)" }} disablePadding>
             <ListItemButton sx={{ p: 0 }} onClick={() => props.onClick()} disableGutters>
                 <Stack direction="row" sx={{ width: "100%" }}>
                     <img src={img} style={{ minWidth: "40%", maxWidth: "40%", aspectRatio: "1 / 1", objectFit: "cover" }} />
                     <Stack sx={{ p: "8px" }}>
-                        <Typography variant="h6" align="left">
+                        <Typography variant="subtitle1" align="left">
                             {props.item.name}
                         </Typography>
                         <Typography variant="body2" align="left" color="#00000080">

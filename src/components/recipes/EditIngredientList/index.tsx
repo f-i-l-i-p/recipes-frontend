@@ -112,7 +112,7 @@ const EditIngredientList = (props: Props) => {
                         }}
                     />
                 </Stack>
-                <IconButton color="primary" aria-label="add" size="small" type="submit" sx={{ width: "40px", height: "40px" }}>
+                <IconButton color="secondary" aria-label="add" size="small" type="submit" sx={{ width: "40px", height: "40px" }}>
                     <AddIcon />
                 </IconButton>
             </Stack>

@@ -33,7 +33,6 @@ const RecipeListPage = () => {
             {recipes.map((recipe, index) =>
                 <React.Fragment key={index}>
                     <RecipeListItemComponent item={recipe} onClick={() => openRecipe(recipe)} />
-                    <Box sx={{ marginTop: "16px !important" }} />
                 </React.Fragment>
             )}
             <Box sx={{ marginTop: "32px !important" }} />

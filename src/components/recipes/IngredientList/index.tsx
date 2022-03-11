@@ -11,7 +11,7 @@ interface Props {
 const IngredientList = (props: Props) => {
     return (
         <div>
-            <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
+            <Typography variant="h6" component="h2" align="left" sx={{ ml: 2 }}>
                 Ingredienser
             </Typography>
             <TableContainer component={Paper}>

@@ -126,6 +126,7 @@ function Navigation() {
                         sx={{
                             width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
                             ml: { sm: `${DRAWER_WIDTH}px` },
+                            backgroundColor: "#ffffff"
                         }}
                     >
                         <Toolbar>
@@ -153,6 +154,7 @@ function Navigation() {
                                 Recept App
                             </Typography>
                         </Toolbar>
+                        <Divider sx={{backgroundColor: "#DDDDDD"}} />
                     </AppBar>
                     <Box
                         component="nav"
@@ -188,7 +190,7 @@ function Navigation() {
             }
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)`, maxWidth: "100%" } }}
+                sx={{ flexGrow: 1, width: { sm: `calc(100% - ${DRAWER_WIDTH}px)`, maxWidth: "100%" } }}
             >
                 <Toolbar />
                 {currentPage}

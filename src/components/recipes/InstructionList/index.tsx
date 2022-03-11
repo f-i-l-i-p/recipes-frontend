@@ -10,7 +10,7 @@ interface Props {
 const InstructionsList = (props: Props) => {
     return (
         <div>
-            <Typography variant="h6" component="h2" align="left" sx={{marginLeft: "8px"}}>
+            <Typography variant="h6" component="h2" align="left" sx={{ml: 2}}>
                 Instruktioner
             </Typography>
             <TableContainer component={Paper}>

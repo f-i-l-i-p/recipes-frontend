@@ -34,8 +34,12 @@ const RecipePage = (props: Props) => {
 
     const editRecipe = () => {
         if (recipe) {
-            dispatch(pushPage(<EditRecipePage onComplete={() => window.history.back()} recipe={recipe} />))
+            dispatch(pushPage(<EditRecipePage onComplete={() => onEditSave()} recipe={recipe} />))
         }
+    }
+
+    const onEditSave = () => {
+        window.history.back()
     }
 
     const deleteRecipe = () => {
@@ -82,18 +86,22 @@ const RecipePage = (props: Props) => {
     return (
         <Stack spacing={2}>
             {deleteDialog}
-            <React.Fragment>
-                {image_url ?
-                    <div style={{ width: "calc(100% + 16px", margin: "-8px", marginBottom: 0, overflow: "hidden" }}>
-                        <img src={image_url} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
-                        <div style={{ backgroundColor: "#fff8eb", height: "32px", marginTop: "-32px", borderRadius: "8px 8px 0 0", boxShadow: "0 -4px 40px 0 #000F" }} />
-                    </div>
-                    :
-                    <Box sx={{ marginTop: "64px !important" }} />
-                }
-                <Typography component="h1" variant="h5" sx={{ m: "-10px 0 10px 0 !important" }}>
+
+            {image_url ?
+                <div style={{ width: "100%", marginBottom: 0, overflow: "hidden" }}>
+                    <img src={image_url} style={{ width: "100%", zIndex: -1, position: "relative", aspectRatio: "1 / 1", maxHeight: "100vw", objectFit: "cover" }} />
+                    <div style={{ backgroundColor: "#F2F2F7", height: "32px", marginTop: "-32px", borderRadius: "8px 8px 0 0", boxShadow: "0 -4px 40px 0 #000F" }} />
+                </div>
+                :
+                <Box sx={{ marginTop: "64px !important" }} />
+            }
+
+            <Box sx={{ pl: 2, pr: 2 }}>
+
+                <Typography component="h1" variant="h5" sx={{ m: "-10px 0 20px 0 !important" }}>
                     {name}
                 </Typography>
+
                 {recipe &&
                     <React.Fragment>
                         {recipe.ingredients.length > 0 &&
@@ -110,13 +118,15 @@ const RecipePage = (props: Props) => {
                         }
                         {/* TODO: Only show if recipe created by user */}
                         <Stack direction="row" justifyContent="space-between">
-                            <Button variant="text" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
+                            <Button variant="text" color="secondary" startIcon={<EditIcon />} onClick={() => editRecipe()}>Redigera</Button>
                             <Button disabled={deleteLoading} variant="text" color="error" startIcon={<DeleteIcon />} onClick={() => setShowDeleteDialog(true)}>Radera</Button>
                         </Stack>
                     </React.Fragment>
                 }
-                <Box sx={{ marginTop: "32px !important" }} />
-            </React.Fragment>
+
+            </Box>
+
+            <Box sx={{ marginTop: "32px !important" }} />
         </Stack>
     )
 }

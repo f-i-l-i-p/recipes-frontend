@@ -79,7 +79,7 @@ const EditInstructionList = (props: Props) => {
                         width: "99%"
                     }}
                 />
-                <IconButton color="primary" aria-label="add" size="small" type="submit" sx={{ alignSelf: "center", width: "40px", height: "40px" }}>
+                <IconButton color="secondary" aria-label="add" size="small" type="submit" sx={{ alignSelf: "center", width: "40px", height: "40px" }}>
                     <AddIcon />
                 </IconButton>
             </Stack>

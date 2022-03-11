@@ -18,7 +18,12 @@ const theme = createTheme({
   shape: {
     borderRadius: 10
   },
-  shadows: Array(25).fill("0 4px 20px 0 #0003") as Shadows,
+  shadows: Array(25).fill("0px 1px 8px 0px #00000005") as Shadows,
+  typography: {
+    h6: {
+      fontWeight: "bold"
+    }
+  },
 });
 
 

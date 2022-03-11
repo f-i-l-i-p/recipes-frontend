@@ -10,9 +10,9 @@ const FriendsPage = () => {
     const [showSearch, setShowSearch] = useState<boolean>(false)
 
     return (
-        <Stack>
+        <Stack sx={{m: 2}}>
             <UserSearchDialog show={showSearch} close={() => setShowSearch(false)} />
-            <Fab color="primary" aria-label="add" onClick={() => setShowSearch(true)} sx={{alignSelf: "end"}}>
+            <Fab color="primary" aria-label="add" onClick={() => setShowSearch(true)} sx={{alignSelf: "flex-end"}}>
                 <GroupAddIcon />
             </Fab>
             <FriendsList />
