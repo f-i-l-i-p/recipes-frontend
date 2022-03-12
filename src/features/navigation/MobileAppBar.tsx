@@ -1,9 +1,12 @@
 import { AppBar, Toolbar, IconButton, Typography, Divider } from "@material-ui/core";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsPage from "../../components/pages/SettingsPage";
+import { pushPage } from "./navigationSlice";
 
 export default function MobileAppBar() {
+    const dispatch = useAppDispatch()
     const currentPageIndex = useAppSelector((state) => state.navigation.currentPageIndex)
     const showBackButton = currentPageIndex !== 0
 
@@ -12,7 +15,7 @@ export default function MobileAppBar() {
     }
 
     const onSettingsButtonClick = () => {
-
+        dispatch(pushPage(<SettingsPage />))
     }
 
     return (
@@ -28,7 +31,7 @@ export default function MobileAppBar() {
                     color="secondary"
                     onClick={() => onBackButtonClick()}
                     disabled={!showBackButton}
-                    sx={{visibility: showBackButton ? "visible" : "hidden"}}
+                    sx={{ visibility: showBackButton ? "visible" : "hidden" }}
                 >
                     <ArrowBackIcon />
                 </IconButton>
@@ -40,7 +43,6 @@ export default function MobileAppBar() {
                 <IconButton
                     color="secondary"
                     onClick={() => onSettingsButtonClick()}
-                    disabled
                 >
                     <SettingsIcon />
                 </IconButton>

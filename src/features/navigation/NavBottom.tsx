@@ -1,7 +1,5 @@
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddIcon from '@mui/icons-material/Add';
-import PeopleIcon from '@mui/icons-material/People';
-import SettingsIcon from '@mui/icons-material/Settings';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -13,6 +11,7 @@ import { useAppDispatch } from '../../app/hooks';
 import RecipeListPage from '../recipeList/RecipeList';
 import FriendsPage from '../../components/pages/FriendsPage';
 import CreateRecipePage from '../../components/pages/CreateRecipePage';
+import FriendsIcon from '../friends/FriendsIcon';
 
 export default function NavBottom() {
     const dispatch = useAppDispatch()
@@ -52,12 +51,7 @@ export default function NavBottom() {
                     onTouchStart={() => onSelect(2, <FriendsPage />)}
                     sx={{ ml: "-10px", mr: "-10px" }}
                     label="Vänner"
-                    icon={<PeopleIcon />} />
-                {/* <BottomNavigationAction
-                    sx={{ ml: "-10px" }}
-                    label="Inställningar"
-                    icon={<SettingsIcon />}
-                /> */}
+                    icon={<FriendsIcon />} />
             </BottomNavigation>
         </Paper>
     )

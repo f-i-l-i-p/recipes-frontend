@@ -10,14 +10,14 @@ import RecipeListPage from "../recipeList/RecipeList";
 import { pushPage } from "./navigationSlice";
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddIcon from '@mui/icons-material/Add';
-import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Friends } from "../friends/types";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
+import SettingsPage from "../../components/pages/SettingsPage";
+import FriendsIcon from "../friends/FriendsIcon";
 
 const DRAWER_WIDTH = 240;
 
@@ -26,9 +26,6 @@ const DRAWER_WIDTH = 240;
  */
 export default function NavDrawer() {
     const dispatch = useAppDispatch()
-    const friends: Friends = useAppSelector((state) => state.friends.friends)
-
-    const showFriendsNotification = friends.incomingRequests.length > 0
 
     return (
         <Box sx={{ width: `${DRAWER_WIDTH}px` }}>
@@ -66,16 +63,11 @@ export default function NavDrawer() {
                     </ListItem>
                     <ListItem button onClick={() => { dispatch(pushPage(<FriendsPage />)) }}>
                         <ListItemIcon>
-                            <PeopleIcon />
+                            <FriendsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Vänner" />
-                        {showFriendsNotification &&
-                            <ListItemIcon>
-                                <NotificationsActiveIcon color="error" />
-                            </ListItemIcon>
-                        }
                     </ListItem>
-                    <ListItem disabled button>
+                    <ListItem button onClick={() => { dispatch(pushPage(<SettingsPage />))}}>
                         <ListItemIcon>
                             <SettingsIcon />
                         </ListItemIcon>

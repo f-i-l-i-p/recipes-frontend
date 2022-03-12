@@ -1,9 +1,7 @@
 import { Toolbar, Box } from "@mui/material";
-import { logoutRequest } from "../../helpers/requests/routes";
-import { historyEvent, pushPage, setShowNavigation } from "./navigationSlice";
+import { historyEvent } from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import React from "react";
-import LoginPage from "../../components/pages/LoginPage";
 import NavDrawer from "./NavDrawer";
 import { BrowserView, MobileView } from "react-device-detect";
 import Stack from "@material-ui/core/Stack";
@@ -16,16 +14,6 @@ function Navigation() {
     const pages = useAppSelector((state) => state.navigation.pages)
     const currentPageIndex = useAppSelector((state) => state.navigation.currentPageIndex)
     const showNavigation = useAppSelector((state) => state.navigation.showNavigation)
-
-    const handleLogout = () => {
-        logoutRequest({
-            onSuccess: () => {
-                dispatch(pushPage(<LoginPage />))
-                dispatch(setShowNavigation(false))
-            },
-            onError: () => { alert("Error") },
-        })
-    }
 
     const currentPage = pages[currentPageIndex].page
 
@@ -44,7 +32,9 @@ function Navigation() {
                 <Box sx={{ width: "100%", minHeight: "100vh" }}>
                     <Toolbar />
                     {currentPage}
-                    <Toolbar />
+                    {showNavigation &&
+                        <Toolbar />
+                    }
                 </Box>
                 {showNavigation &&
                     <NavBottom />
