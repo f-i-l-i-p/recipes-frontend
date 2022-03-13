@@ -1,20 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import LoginPage from '../../components/pages/LoginPage'
 
-interface IdPagePair {
+interface PageData {
   page: JSX.Element,
   id: number,
+  name: string,
+}
+
+interface NewPageData {
+  page: JSX.Element,
+  name: string,
 }
 
 interface NavigationState {
-  pages: IdPagePair[],
+  pages: PageData[],
   currentPageIndex: number,
   idCounter: number,
   showNavigation: boolean,
 }
 
 const initialState: NavigationState = {
-  pages: [{ page: <LoginPage />, id: 0 }],
+  pages: [{ page: <LoginPage />, id: 0, name: "" }],
   currentPageIndex: 0,
   idCounter: 1,
   showNavigation: false,
@@ -53,7 +59,7 @@ export const navigationSlice = createSlice({
     /**
      * Pushes a new page and opens it. Removes forward history.
      */
-    pushPage: (state, action: PayloadAction<JSX.Element>) => {
+    pushPage: (state, action: PayloadAction<NewPageData>) => {
       const id = state.idCounter;
       window.history.pushState(id, "", window.location.href)
 
@@ -65,7 +71,7 @@ export const navigationSlice = createSlice({
         newPages.splice(index + 1, newPages.length - index - 1)
       }
 
-      newPages.push({ page: action.payload, id: id })
+      newPages.push({ page: action.payload.page, id: id, name: action.payload.name })
 
       state.idCounter += 1
       state.pages = newPages
@@ -76,11 +82,11 @@ export const navigationSlice = createSlice({
     /**
      * Replaces the current page. Does not affect forward or backwards history.
      */
-    replacePage: (state, action: PayloadAction<JSX.Element>) => {
+    replacePage: (state, action: PayloadAction<NewPageData>) => {
       const id = state.pages[state.currentPageIndex].id
       window.history.replaceState(id, "", window.location.href)
 
-      state.pages[state.currentPageIndex] = { page: action.payload, id: id }
+      state.pages[state.currentPageIndex] = { page: action.payload.page, id: id, name: action.payload.name }
 
       window.scrollTo(0, 0)
     },

@@ -5,6 +5,7 @@ import { formatImageToURL, isImage } from "../../../helpers/imageHelper";
 import EditIngredientList from "../EditIngredientList";
 import EditInstructionList from "../EditInstructionList";
 import { Ingredient, Recipe } from "../../../helpers/requests/types";
+import SectionHeading from "../../SectionHeading";
 
 
 interface Props {
@@ -72,15 +73,11 @@ const RecipeEditor = (props: Props) => {
                 />
             </Paper >
             <div>
-                <Typography variant="h6" component="h2" align="left" sx={{ ml: 2 }}>
-                    Ingredienser
-                </Typography>
+                <SectionHeading txt="Ingredienser" />
                 <EditIngredientList ingredients={recipeIngredients} setIngredients={setIngredients} />
             </div>
             <div>
-                <Typography variant="h6" component="h2" align="left" sx={{ ml: 2 }}>
-                    Instruktioner
-                </Typography>
+                <SectionHeading txt="Instruktioner" />
                 <EditInstructionList instructions={recipeInstructions} setInstructions={setInstructions} />
             </div>
             <div>

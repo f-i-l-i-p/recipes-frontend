@@ -13,7 +13,7 @@ const RecipeListPage = () => {
     const recipes: RecipeListItem[] = useAppSelector((state) => state.recipeList.recipes)
 
     const openRecipe = (recipeListItem: RecipeListItem) => {
-        dispatch(pushPage(<RecipePage recipe={recipeListItem} />))
+        dispatch(pushPage({ page: <RecipePage recipe={recipeListItem} />, name: recipeListItem.name }))
     }
 
     React.useEffect(() => {

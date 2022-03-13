@@ -20,8 +20,15 @@ const theme = createTheme({
   },
   shadows: Array(25).fill("0px 1px 8px 0px #00000005") as Shadows,
   typography: {
+    h4: {
+      fontWeight: "bold",
+      fontSize: "20px",
+      lineHeight: "32px",
+
+    },
     h6: {
-      fontWeight: "bold"
+      fontWeight: "bold",
+      fontSize: "17px",
     }
   },
 });

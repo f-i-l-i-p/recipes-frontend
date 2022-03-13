@@ -2,12 +2,12 @@ import { Toolbar, Box } from "@mui/material";
 import { historyEvent } from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import React from "react";
-import NavDrawer from "./NavDrawer";
+import NavDrawer from "./components/NavDrawer";
 import { BrowserView, MobileView } from "react-device-detect";
 import Stack from "@material-ui/core/Stack";
-import NavBottom from "./NavBottom";
-import MobileAppBar from "./MobileAppBar";
-import DesktopAppBar from "./DesktopAppBar";
+import NavBottom from "./components/NavBottom";
+import MobileAppBar from "./components/MobileAppBar";
+import DesktopAppBar from "./components/DesktopAppBar";
 
 function Navigation() {
     const dispatch = useAppDispatch()

@@ -14,7 +14,7 @@ export default function SettingsPage() {
     const handleLogout = () => {
         logoutRequest({
             onSuccess: () => {
-                dispatch(pushPage(<LoginPage />))
+                dispatch(pushPage({ page: <LoginPage />, name: "" }))
                 dispatch(setShowNavigation(false))
             },
             onError: () => { alert("Error") },

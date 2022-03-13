@@ -1,5 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { Ingredient } from "../../../helpers/requests/types";
+import SectionHeading from "../../SectionHeading";
 
 interface Props {
     ingredients: Ingredient[]
@@ -11,9 +12,7 @@ interface Props {
 const IngredientList = (props: Props) => {
     return (
         <div>
-            <Typography variant="h6" component="h2" align="left" sx={{ ml: 2 }}>
-                Ingredienser
-            </Typography>
+            <SectionHeading txt="Ingredienser" />
             <TableContainer component={Paper}>
                 <Table sx={{ width: "100%" }}>
                     <TableBody>

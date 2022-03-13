@@ -26,6 +26,10 @@ const RecipePage = (props: Props) => {
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
     const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false)
 
+    // Use data from newly loaded recipe in possible, otherwise use data from props.
+    const image_url = recipe?.img_url || props.recipe.img_url
+    const name = recipe?.name || props.recipe.name
+
     const request = () => {
         recipeRequest(props.recipe.id, {
             onSuccess: (res) => { setRecipe(res.data) },
@@ -34,7 +38,10 @@ const RecipePage = (props: Props) => {
 
     const editRecipe = () => {
         if (recipe) {
-            dispatch(pushPage(<EditRecipePage onComplete={() => onEditSave()} recipe={recipe} />))
+            dispatch(pushPage({
+                page: <EditRecipePage onComplete={() => onEditSave()} recipe={recipe} />,
+                name: "Redigera"
+            }))
         }
     }
 
@@ -58,10 +65,6 @@ const RecipePage = (props: Props) => {
     React.useEffect(() => {
         request();
     }, []);
-
-    // Use data from newly loaded recipe in possible, otherwise use data from props.
-    const image_url = recipe?.img_url || props.recipe.img_url
-    const name = recipe?.name || props.recipe.name
 
     const deleteDialog = (
         <Dialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)}>
@@ -98,7 +101,7 @@ const RecipePage = (props: Props) => {
 
             <Box sx={{ pl: 2, pr: 2 }}>
 
-                <Typography component="h1" variant="h5" sx={{ m: "-10px 0 20px 0 !important" }}>
+                <Typography component="h2" variant="h5" sx={{ m: "-10px 0 20px 0 !important" }}>
                     {name}
                 </Typography>
 

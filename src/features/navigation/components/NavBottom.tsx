@@ -6,20 +6,20 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
-import { replacePage } from './navigationSlice';
-import { useAppDispatch } from '../../app/hooks';
-import RecipeListPage from '../recipeList/RecipeList';
-import FriendsPage from '../../components/pages/FriendsPage';
-import CreateRecipePage from '../../components/pages/CreateRecipePage';
-import FriendsIcon from '../friends/FriendsIcon';
+import { replacePage } from '../navigationSlice';
+import { useAppDispatch } from '../../../app/hooks';
+import RecipeListPage from '../../recipeList/RecipeList';
+import FriendsPage from '../../../components/pages/FriendsPage';
+import CreateRecipePage from '../../../components/pages/CreateRecipePage';
+import FriendsIcon from '../../friends/FriendsIcon';
 
 export default function NavBottom() {
     const dispatch = useAppDispatch()
     const [value, setValue] = React.useState(0);
 
-    const onSelect = (value: number, page: JSX.Element) => {
+    const onSelect = (value: number, page: JSX.Element, name: string) => {
         setValue(value)
-        dispatch(replacePage(page))
+        dispatch(replacePage({ page: page, name: name }))
     }
 
     return (
@@ -31,13 +31,13 @@ export default function NavBottom() {
                 sx={{ whiteSpace: "nowrap" }}
             >
                 <BottomNavigationAction
-                    onTouchStart={() => onSelect(0, <RecipeListPage />)}
+                    onTouchStart={() => onSelect(0, <RecipeListPage />, "Recept")}
                     sx={{ mr: "-10px" }}
                     label="Recept"
                     icon={<MenuBookIcon />}
                 />
                 <BottomNavigationAction
-                    onTouchStart={() => onSelect(1, <CreateRecipePage />)}
+                    onTouchStart={() => onSelect(1, <CreateRecipePage />, "Nytt Recept")}
                     sx={{ ml: "-10px", mr: "-10px" }}
                     label="Nytt Recept"
                     icon={<AddIcon />}
@@ -48,7 +48,7 @@ export default function NavBottom() {
                     icon={<FavoriteIcon />}
                 /> */}
                 <BottomNavigationAction
-                    onTouchStart={() => onSelect(2, <FriendsPage />)}
+                    onTouchStart={() => onSelect(2, <FriendsPage />, "Vänner")}
                     sx={{ ml: "-10px", mr: "-10px" }}
                     label="Vänner"
                     icon={<FriendsIcon />} />

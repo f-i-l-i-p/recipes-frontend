@@ -2,8 +2,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Divider from "@material-ui/core/Divider";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import { useAppSelector } from "../../../app/hooks";
 
 export default function DesktopAppBar() {
+    const pages = useAppSelector((state) => state.navigation.pages)
+    const currentPageIndex = useAppSelector((state) => state.navigation.currentPageIndex)
+
+    const currentPageName = pages[currentPageIndex].name
+
     return (
         <AppBar
             position="fixed"
@@ -14,7 +20,7 @@ export default function DesktopAppBar() {
         >
             <Toolbar>
                 <Typography variant="h6" noWrap component="div">
-                    Recept App
+                    {currentPageName}
                 </Typography>
             </Toolbar>
             <Divider sx={{ backgroundColor: "#DDDDDD" }} />

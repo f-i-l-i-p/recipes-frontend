@@ -15,9 +15,9 @@ function CreateRecipePage() {
 
     const onCreate = (name: string, ingredients: Ingredient[], instructions: string[], image: string | undefined) => {
         setIsLoading(true)
-        
+
         const onSuccess = () => {
-            dispatch(replacePage(<RecipeListPage />))
+            dispatch(replacePage({ page: <RecipeListPage />, name: "Recipes" }))
             setIsLoading(false)
         }
         const onError = () => {

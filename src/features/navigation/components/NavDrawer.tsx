@@ -4,20 +4,20 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Toolbar from "@material-ui/core/Toolbar";
-import CreateRecipePage from "../../components/pages/CreateRecipePage";
-import FriendsPage from "../../components/pages/FriendsPage";
-import RecipeListPage from "../recipeList/RecipeList";
-import { pushPage } from "./navigationSlice";
+import CreateRecipePage from "../../../components/pages/CreateRecipePage";
+import FriendsPage from "../../../components/pages/FriendsPage";
+import RecipeListPage from "../../recipeList/RecipeList";
+import { pushPage } from "../navigationSlice";
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AddIcon from '@mui/icons-material/Add';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Friends } from "../friends/types";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { Friends } from "../../friends/types";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
-import SettingsPage from "../../components/pages/SettingsPage";
-import FriendsIcon from "../friends/FriendsIcon";
+import SettingsPage from "../../../components/pages/SettingsPage";
+import FriendsIcon from "../../friends/FriendsIcon";
 
 const DRAWER_WIDTH = 240;
 
@@ -43,13 +43,13 @@ export default function NavDrawer() {
             >
                 <Toolbar />
                 <List>
-                    <ListItem button onClick={() => { dispatch(pushPage(<RecipeListPage />)) }}>
+                    <ListItem button onClick={() => { dispatch(pushPage({page: <RecipeListPage />, name: "Recept" })) }}>
                         <ListItemIcon>
                             <MenuBookIcon />
                         </ListItemIcon>
                         <ListItemText primary="Recept" />
                     </ListItem>
-                    <ListItem button onClick={() => { dispatch(pushPage(<CreateRecipePage />)) }}>
+                    <ListItem button onClick={() => { dispatch(pushPage({page: <CreateRecipePage />, name: "Nytt Recept" })) }}>
                         <ListItemIcon>
                             <AddIcon />
                         </ListItemIcon>
@@ -61,13 +61,13 @@ export default function NavDrawer() {
                         </ListItemIcon>
                         <ListItemText primary="Gillade Recept" />
                     </ListItem>
-                    <ListItem button onClick={() => { dispatch(pushPage(<FriendsPage />)) }}>
+                    <ListItem button onClick={() => { dispatch(pushPage({page: <FriendsPage />, name: "Vänner" })) }}>
                         <ListItemIcon>
                             <FriendsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Vänner" />
                     </ListItem>
-                    <ListItem button onClick={() => { dispatch(pushPage(<SettingsPage />))}}>
+                    <ListItem button onClick={() => { dispatch(pushPage({page: <SettingsPage />, name: "Inställningar" }))}}>
                         <ListItemIcon>
                             <SettingsIcon />
                         </ListItemIcon>

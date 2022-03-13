@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import ConfirmDialog, { Props as DialogProps } from "../../components/ConfirmDialog";
+import SectionHeading from "../../components/SectionHeading";
 import { acceptFriendRequest, cancelFriendRequest, removeFriendRequest } from "../../helpers/requests/routes";
 import { User } from "../../helpers/requests/types";
 import { fetchFriends } from "./friendsSlice";
@@ -125,9 +126,7 @@ const UserList = (props: UserListProps) => {
 
     return (
         <React.Fragment>
-            <Typography variant="h6" component="h2" align="left" sx={{ marginLeft: "8px" }}>
-                {props.title}
-            </Typography>
+            <SectionHeading txt={props.title} />
             <List component={Paper}>
                 {props.users.map((user, index) =>
                     <ListItem

@@ -23,7 +23,7 @@ const LoginPage = () => {
     const onLogin = () => {
         dispatch(fetchFriends())
         dispatch(setShowNavigation(true))
-        dispatch(replacePage(<RecipeListPage />))
+        dispatch(replacePage({ page: <RecipeListPage />, name: "Recept" }))
     }
 
     // Automatically login if valid token
