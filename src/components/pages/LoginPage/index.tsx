@@ -59,8 +59,14 @@ const LoginPage = () => {
             onSuccess: () => {
                 login(email, password)
             },
-            onError: () => {
+            onError: (res) => {
                 setIsCreateLoading(false);
+
+                if (res.status === 409) {
+                    alert("Den här mejladressen används redan")
+                } else {
+                    alert("Kunde inte skapa konto")
+                }
             }
         })
     }
